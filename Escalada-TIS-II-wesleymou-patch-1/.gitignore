@@ -1,0 +1,10 @@
+# Para arquivos Java compilados
+*.class
+# Para pasta bin/
+java/bin/
+# Para o classpath
+.classpath
+# lauch.json do vs code
+launch.json
+.metadata
+Trabalho-DAO/
