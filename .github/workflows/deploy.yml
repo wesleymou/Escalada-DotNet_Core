@@ -7,10 +7,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-#     - uses: actions/checkout@v2
+    - uses: actions/checkout@master
       
-#     - name: GitHub Action for Heroku
-#       uses: actions/heroku@1.0.0
+    - name: GitHub Action for Heroku
+      uses: actions/heroku@master
       
     - name: Login on Heroku
       env:
