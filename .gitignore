@@ -3,7 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-Visual Studio Code Workspace
+# Environment Variables
+*.env.json
+
+# Visual Studio Code Workspace
 *.code-workspace
 
 # User-specific files

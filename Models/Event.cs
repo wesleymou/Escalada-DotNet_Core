@@ -5,13 +5,14 @@ namespace Escalada_DotNet_Core.Models
 {
     public class Event
     {
-        private string nome { get; set; }
-        private DateTime dataInicio { get; set; }
-        private DateTime dataTermino { get; set; }
-        private string local { get; set; }
-        private uint capacidade { get; set; }
-        private uint quorum { get; set; }
-        private decimal orcamentoPrevio
+        public int id { get; set; }
+        public string nome { get; set; }
+        public DateTime dataInicio { get; set; }
+        public DateTime dataTermino { get; set; }
+        public string local { get; set; }
+        public uint capacidade { get; set; }
+        public uint quorum { get; set; }
+        public decimal orcamentoPrevio
         {
             get => orcamentoPrevio;
             set
@@ -22,7 +23,7 @@ namespace Escalada_DotNet_Core.Models
                     throw new System.ArgumentException("O valor deve ser positivo.");
             }
         }
-        private decimal valorIngresso
+        public decimal valorIngresso
         {
             get => valorIngresso;
             set
@@ -33,10 +34,11 @@ namespace Escalada_DotNet_Core.Models
                     throw new System.ArgumentException("O valor deve ser positivo.");
             }
         }
-        private SortedDictionary<DateTime, string> cronograma = new SortedDictionary<DateTime, string>();
-        //	private int convenio[];
-        private HashSet<Subscription> inscricoes = new HashSet<Subscription>();
-        private string status
+        public SortedDictionary<DateTime, string> cronograma = new SortedDictionary<DateTime, string>();
+        //	public int convenio[];
+        public ICollection<SubscriptionInEvents> clientes { get; set; }
+        public ICollection<SubscriptionProvider> fornecedores { get; set; }
+        public string status
         {
             get => status;
             set
