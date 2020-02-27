@@ -1,5 +1,5 @@
-using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
+using Npgsql.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 using Escalada_DotNet_Core.Models;
 
@@ -7,19 +7,19 @@ namespace Escalada_DotNet_Core.Service
 {
     public class EscaladaContext : DbContext
     {
-        public EscaladaContext() : base("EscaladaContext")
+        public EscaladaContext(DbContextOptions<EscaladaContext> options) : base(options)
         {
         }
+        public DbSet<Customer> customers { get; set; }
+        public DbSet<Event> events { get; set; }
+        public DbSet<Provider> providers { get; set; }
+        public DbSet<SubscriptionInEvents> subscriptionsInEvents { get; set; }
+        public DbSet<SubscriptionProvider> subscriptionProviders { get; set; }
+        public DbSet<PaymentType> paymentTypes { get; set; }
 
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<Event> Events { get; set; }
-        public DbSet<Provider> Providers { get; set; }
-        public DbSet<Subscription> subscriptions { get; set; }
-        public DbSet<SubscriptionProvider> SubscriptionProviders { get; set; }
-        
-        // protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        // protected override void OnModelCreating(ModelBuilder modelBuilder)
         // {
-        //     modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        //     modelBuilder.Entity<Customer>().ToTable("Customer");
         // }
     }
 }
