@@ -10,9 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 
-using Escalada_DotNet_Core.Service;
+using Escalada.Service;
 
-namespace Escalada_DotNet_Core
+namespace Escalada
 {
     public class Startup
     {

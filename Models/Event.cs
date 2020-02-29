@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Escalada_DotNet_Core.Models
+namespace Escalada.Models
 {
     public class Event
     {
@@ -37,8 +37,8 @@ namespace Escalada_DotNet_Core.Models
         // }
         public SortedDictionary<DateTime, string> cronograma = new SortedDictionary<DateTime, string>();
         //	public int convenio[];
-        public ICollection<SubscriptionInEvents> clientes { get; set; }
-        public ICollection<SubscriptionProvider> fornecedores { get; set; }
+        public ICollection<Inscription> inscricoes { get; set; }
+        public ICollection<Agreement> fornecedores { get; set; }
         public string status { get; set; }
         // {
         //     get => status;

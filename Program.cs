@@ -9,9 +9,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 
-using Escalada_DotNet_Core.Service;
+using Escalada.Service;
 
-namespace Escalada_DotNet_Core
+namespace Escalada
 {
     public class Program
     {
@@ -26,10 +26,10 @@ namespace Escalada_DotNet_Core
                 {
                     var context = services.GetRequiredService<EscaladaContext>();
 
-                    // if (context.Database.CanConnect())
-                    //     Console.WriteLine($"Can connect to database. {context.Database.GetDbConnection().DataSource}");
-                    // else
-                    //     Console.WriteLine("Can't connect to database.");
+                    if (context.Database.CanConnect())
+                        Console.WriteLine($"Can connect to database. {context.Database.GetDbConnection().DataSource}");
+                    else
+                        Console.WriteLine("Can't connect to database.");
                 }
                 catch (Exception ex)
                 {

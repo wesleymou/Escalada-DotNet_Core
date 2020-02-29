@@ -1,196 +1,35 @@
-<div class="text-center">
-<div id="fornecedor">
-    <form id="formFornecedor" class="form-group">
-      <div class="row">
-        <div class="col">
-          <h2>Fornecedor</h2>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <input
-            id="formFornecedorCreate"
-            type="radio"
-            name="funcao"
-            value="create"
-            onchange="habilitaForm(this.checked, 'create', 'Fornecedor')"
-          />
-          <label for="formFornecedorCreate">Cadastrar</label>
-          <input
-            id="formFornecedorRead"
-            type="radio"
-            name="funcao"
-            value="read"
-            onchange="habilitaForm(this.checked, 'read', 'Fornecedor')"
-          />
-          <label for="formFornecedorRead">Consultar</label>
-          <!-- <input id="formFornecedorUpdate" type="radio" name="funcao" value="update"
-                                onchange="habilitaForm(this.checked, 'update', 'Fornecedor')">
-                            <label for="formFornecedorUpdate">Atualizar</label>
-                            <input id="formFornecedorDelete" type="radio" name="funcao" value="delete"
-                                onchange="habilitaForm(this.checked, 'delete', 'Fornecedor')">
-                            <label for="formFornecedorDelete">Excluir</label> -->
-        </div>
-        <div class="col">
-          <button
-            class="btnAcao btn"
-            style="display:none"
-            type="button"
-          ></button>
-          <button
-            class="btnUpdate btn btn-success"
-            style="display:none"
-            type="button"
-            form=""
-            onclick="executaXML('update','Fornecedor')"
-          >
-            Atualizar
-          </button>
-          <button
-            class="btnDelete btn btn-danger"
-            style="display:none"
-            type="button"
-            form=""
-            onclick="executaXML('delete','Fornecedor')"
-          >
-            Excluir
-          </button>
-        </div>
-      </div>
-      <br />
+@model IEnumerable<Escalada.Models.Provider>
 
-      <div class="row">
-        <div class="col colNome">
-          <div class="form-group">
-            <label for="formFornecedorCNPJ">CNPJ</label><br />
-            <input
-              id="formFornecedorCNPJ"
-              class="form-control"
-              name="cnpj"
-              type="text"
-              minlength="15"
-              maxlength="15"
-              disabled="true"
-              required
-            /><br />
-          </div>
-        </div>
-        <div class="col colNovoNome">
-          <div class="form-group">
-            <label for="formFornecedorNovoCNPJ" style="display:none">CNPJ</label
-            ><br />
-            <input
-              id="formFornecedorNovoCNPJ"
-              style="display:none"
-              class="form-control"
-              name="novoCnpj"
-              type="text"
-              minlength="15"
-              maxlength="15"
-              disabled="true"
-            /><br />
-          </div>
-        </div>
-        <div class="col">
-          <div class="form-group">
-            <label for="formFornecedorNome">Nome do fornecedor</label><br />
-            <input
-              id="formFornecedorNome"
-              class="form-control"
-              name="nome"
-              type="text"
-              disabled="true"
-              required
-            /><br />
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label for="formFornecedorEndereco">Endereço</label><br />
-            <input
-              id="formFornecedorEndereco"
-              class="form-control"
-              name="endereco"
-              type="text"
-              disabled="true"
-              required
-            /><br />
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label for="formFornecedorEmail">E-mail:</label><br />
-            <input
-              id="formFornecedorEmail"
-              class="form-control"
-              name="email"
-              type="text"
-              disabled="true"
-              required
-            /><br />
-          </div>
-        </div>
-        <div class="col">
-          <div class="form-group">
-            <label for="formFornecedorTelefone">Telefone comercial:</label
-            ><br />
-            <input
-              id="formFornecedorTelefone"
-              class="form-control"
-              name="telefone"
-              type="text"
-              minlength="10"
-              maxlength="11"
-              disabled="true"
-              required
-            /><br />
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="form-group">
-            <label for="formFornecedorServico">Serviço:</label><br />
-            <textarea
-              id="formFornecedorServico"
-              class="form-control"
-              name="servico"
-              cols="100"
-              rows="1"
-              disabled="true"
-              required
-            ></textarea
-            ><br />
-          </div>
-        </div>
-      </div>
-    </form>
+@{
+    ViewData["Title"] = "Index";
+}
 
-    <!-- Modal utilizado para exibir uma lista de clientes, eventos ou fornecedores -->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalTitle"></h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="container-fluid" id="modalBody"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
-    
-</div>
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

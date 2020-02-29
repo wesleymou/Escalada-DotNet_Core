@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace escalada.Migrations
 {
     [DbContext(typeof(EscaladaContext))]
-    [Migration("20200228031322_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20200229204512_Version002")]
+    partial class Version002
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,29 @@ namespace escalada.Migrations
                 .HasAnnotation("ProductVersion", "3.1.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("EscaladaModels.Customer", b =>
+            modelBuilder.Entity("Escalada.Models.Agreement", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int?>("Eventid")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("providerIdid")
+                        .HasColumnType("integer");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("Eventid");
+
+                    b.HasIndex("providerIdid");
+
+                    b.ToTable("agreement");
+                });
+
+            modelBuilder.Entity("Escalada.Models.Customer", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -51,7 +73,7 @@ namespace escalada.Migrations
                     b.ToTable("customers");
                 });
 
-            modelBuilder.Entity("EscaladaModels.Event", b =>
+            modelBuilder.Entity("Escalada.Models.Event", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -90,37 +112,7 @@ namespace escalada.Migrations
                     b.ToTable("events");
                 });
 
-            modelBuilder.Entity("EscaladaModels.PaymentType", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("type")
-                        .HasColumnType("text");
-
-                    b.HasKey("id");
-
-                    b.ToTable("paymentTypes");
-                });
-
-            modelBuilder.Entity("EscaladaModels.Provider", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("name")
-                        .HasColumnType("text");
-
-                    b.HasKey("id");
-
-                    b.ToTable("providers");
-                });
-
-            modelBuilder.Entity("EscaladaModels.SubscriptionInEvents", b =>
+            modelBuilder.Entity("Escalada.Models.Inscription", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -150,32 +142,40 @@ namespace escalada.Migrations
 
                     b.HasIndex("tipoPagamentoIdid");
 
-                    b.ToTable("subscriptionsInEvents");
+                    b.ToTable("inscription");
                 });
 
-            modelBuilder.Entity("EscaladaModels.SubscriptionProvider", b =>
+            modelBuilder.Entity("Escalada.Models.PaymentType", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("Eventid")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("providerIdid")
-                        .HasColumnType("integer");
+                    b.Property<string>("type")
+                        .HasColumnType("text");
 
                     b.HasKey("id");
 
-                    b.HasIndex("Eventid");
-
-                    b.HasIndex("providerIdid");
-
-                    b.ToTable("subscriptionProviders");
+                    b.ToTable("paymentTypes");
                 });
 
-            modelBuilder.Entity("EscaladaModels.User", b =>
+            modelBuilder.Entity("Escalada.Models.Provider", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("name")
+                        .HasColumnType("text");
+
+                    b.HasKey("id");
+
+                    b.ToTable("providers");
+                });
+
+            modelBuilder.Entity("Escalada.Models.User", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -193,30 +193,30 @@ namespace escalada.Migrations
                     b.ToTable("users");
                 });
 
-            modelBuilder.Entity("EscaladaModels.SubscriptionInEvents", b =>
+            modelBuilder.Entity("Escalada.Models.Agreement", b =>
                 {
-                    b.HasOne("EscaladaModels.Customer", null)
-                        .WithMany("inscricoes")
-                        .HasForeignKey("Customerid");
-
-                    b.HasOne("EscaladaModels.Event", null)
-                        .WithMany("clientes")
-                        .HasForeignKey("Eventid");
-
-                    b.HasOne("EscaladaModels.PaymentType", "tipoPagamentoId")
-                        .WithMany()
-                        .HasForeignKey("tipoPagamentoIdid");
-                });
-
-            modelBuilder.Entity("EscaladaModels.SubscriptionProvider", b =>
-                {
-                    b.HasOne("EscaladaModels.Event", null)
+                    b.HasOne("Escalada.Models.Event", null)
                         .WithMany("fornecedores")
                         .HasForeignKey("Eventid");
 
-                    b.HasOne("EscaladaModels.Provider", "providerId")
-                        .WithMany("subscriptionProviderId")
+                    b.HasOne("Escalada.Models.Provider", "providerId")
+                        .WithMany("agreementId")
                         .HasForeignKey("providerIdid");
+                });
+
+            modelBuilder.Entity("Escalada.Models.Inscription", b =>
+                {
+                    b.HasOne("Escalada.Models.Customer", null)
+                        .WithMany("inscricoes")
+                        .HasForeignKey("Customerid");
+
+                    b.HasOne("Escalada.Models.Event", null)
+                        .WithMany("inscricoes")
+                        .HasForeignKey("Eventid");
+
+                    b.HasOne("Escalada.Models.PaymentType", "tipoPagamentoId")
+                        .WithMany()
+                        .HasForeignKey("tipoPagamentoIdid");
                 });
 #pragma warning restore 612, 618
         }

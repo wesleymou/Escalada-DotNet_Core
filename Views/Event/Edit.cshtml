@@ -1,0 +1,74 @@
+@model Escalada.Models.Event
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Event</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="id" />
+            <div class="form-group">
+                <label asp-for="nome" class="control-label"></label>
+                <input asp-for="nome" class="form-control" />
+                <span asp-validation-for="nome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="dataInicio" class="control-label"></label>
+                <input asp-for="dataInicio" class="form-control" />
+                <span asp-validation-for="dataInicio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="dataTermino" class="control-label"></label>
+                <input asp-for="dataTermino" class="form-control" />
+                <span asp-validation-for="dataTermino" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="local" class="control-label"></label>
+                <input asp-for="local" class="form-control" />
+                <span asp-validation-for="local" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="capacidade" class="control-label"></label>
+                <input asp-for="capacidade" class="form-control" />
+                <span asp-validation-for="capacidade" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="quorum" class="control-label"></label>
+                <input asp-for="quorum" class="form-control" />
+                <span asp-validation-for="quorum" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="orcamentoPrevio" class="control-label"></label>
+                <input asp-for="orcamentoPrevio" class="form-control" />
+                <span asp-validation-for="orcamentoPrevio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="valorIngresso" class="control-label"></label>
+                <input asp-for="valorIngresso" class="form-control" />
+                <span asp-validation-for="valorIngresso" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="status" class="control-label"></label>
+                <input asp-for="status" class="form-control" />
+                <span asp-validation-for="status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

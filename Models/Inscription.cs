@@ -1,6 +1,6 @@
-namespace Escalada_DotNet_Core.Models
+namespace Escalada.Models
 {
-    public class SubscriptionInEvents
+    public class Inscription
     {
         public int id { get; set; }
         public uint qtdAdulto;

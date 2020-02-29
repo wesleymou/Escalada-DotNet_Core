@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 
-namespace Escalada_DotNet_Core.Models
+namespace Escalada.Models
 {
     public class Provider
     {
         public int id { get; set; }
         public string name { get; set; }
-        public ICollection<SubscriptionProvider> subscriptionProviderId { get; set; }
+        public ICollection<Agreement> agreementId { get; set; }
     }
 }

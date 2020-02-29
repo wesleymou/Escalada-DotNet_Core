@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
-using Escalada_DotNet_Core.Models;
+using Escalada.Models;
 
-namespace Escalada_DotNet_Core.Service
+namespace Escalada.Service
 {
     public static class DbInitializer
     {

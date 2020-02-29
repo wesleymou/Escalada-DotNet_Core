@@ -1,4 +1,4 @@
-namespace Escalada_DotNet_Core.Models
+namespace Escalada.Models
 {
     public class User
     {

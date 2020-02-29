@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Escalada_DotNet_Core.Models
+namespace Escalada.Models
 {
     public class Customer
     {
@@ -21,6 +21,6 @@ namespace Escalada_DotNet_Core.Models
         public uint[] numFone2 { get; set; } = new uint[11];
         public string endereco { get; set; }
         public string email { get; set; }
-        public ICollection<SubscriptionInEvents> inscricoes { get; set; }
+        public ICollection<Inscription> inscricoes { get; set; }
     }
 }

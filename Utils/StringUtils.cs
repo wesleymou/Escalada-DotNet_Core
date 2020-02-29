@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 
-namespace Escalada_DotNet_Core.Utils
+namespace Escalada.Utils
 {
     public static class StringUtils
     {

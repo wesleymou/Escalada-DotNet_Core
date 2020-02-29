@@ -1,6 +1,6 @@
-using Escalada_DotNet_Core.Utils;
+using Escalada.Utils;
 
-namespace Escalada_DotNet_Core.Models
+namespace Escalada.Models
 {
     public class PaymentType
     {

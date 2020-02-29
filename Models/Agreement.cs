@@ -1,8 +1,8 @@
-using Escalada_DotNet_Core.Models;
+using Escalada.Models;
 
-namespace Escalada_DotNet_Core.Models
+namespace Escalada.Models
 {
-    public class SubscriptionProvider
+    public class Agreement
     {
         public int id { get; set; }
         public Provider providerId { get; set; }
