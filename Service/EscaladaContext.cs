@@ -16,10 +16,11 @@ namespace Escalada_DotNet_Core.Service
         public DbSet<SubscriptionInEvents> subscriptionsInEvents { get; set; }
         public DbSet<SubscriptionProvider> subscriptionProviders { get; set; }
         public DbSet<PaymentType> paymentTypes { get; set; }
+        public DbSet<User> users {get;set;}
 
-        // protected override void OnModelCreating(ModelBuilder modelBuilder)
-        // {
-        //     modelBuilder.Entity<Customer>().ToTable("Customer");
-        // }
-    }
+    // protected override void OnModelCreating(ModelBuilder modelBuilder)
+    // {
+    //     modelBuilder.Entity<Customer>().ToTable("Customer");
+    // }
+}
 }

@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
+            "label": "Build",
             "command": "dotnet",
             "type": "process",
             "args": [
@@ -14,29 +14,39 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "publish",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "publish",
-                "${workspaceFolder}/escalada.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile"
+            "label": "Migrations Add",
+            "type": "shell",
+            "command":"echo -n \"Migration name: \"; read Name; dotnet ef migrations add $Name",
         },
         {
-            "label": "watch",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "watch",
-                "run",
-                "${workspaceFolder}/escalada.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile"
+            "label": "Migrations List",
+            "type": "shell",
+            "command":"dotnet ef migrations list"
+        },
+        {
+            "label": "Migrations Remove",
+            "type": "shell",
+            "command": "dotnet ef migrations remove"
+        },
+        {
+            "label": "Database update",
+            "type": "shell",
+            "command":"dotnet ef database update"
+        },
+        {
+            "label": "Watch",
+            "type": "shell",
+            "command":"dotnet watch run"
+        },
+        {
+            "label": "Publish",
+            "type": "shell",
+            "command":"dotnet publish"
+        },
+        {
+            "label": "Run",
+            "type": "shell",
+            "command":"dotnet run"
         }
     ]
 }

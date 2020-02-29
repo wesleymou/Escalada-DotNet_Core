@@ -110,6 +110,9 @@ namespace escalada.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<string>("name")
+                        .HasColumnType("text");
+
                     b.HasKey("id");
 
                     b.ToTable("providers");
@@ -168,6 +171,24 @@ namespace escalada.Migrations
                     b.HasIndex("providerIdid");
 
                     b.ToTable("subscriptionProviders");
+                });
+
+            modelBuilder.Entity("Escalada_DotNet_Core.Models.User", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("login")
+                        .HasColumnType("text");
+
+                    b.Property<string>("password")
+                        .HasColumnType("text");
+
+                    b.HasKey("id");
+
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("Escalada_DotNet_Core.Models.SubscriptionInEvents", b =>

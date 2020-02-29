@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-// using Microsoft.EntityFrameworkCore.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 using Escalada_DotNet_Core.Service;
@@ -27,12 +26,10 @@ namespace Escalada_DotNet_Core
                 {
                     var context = services.GetRequiredService<EscaladaContext>();
 
-                    if (context.Database.CanConnect())
-                        Console.WriteLine($"Can connect to database. {context.Database.GetDbConnection().DataSource}");
-                    else
-                        Console.WriteLine("Can't connect to database.");
-
-                    DbInitializer.Initialize(context);
+                    // if (context.Database.CanConnect())
+                    //     Console.WriteLine($"Can connect to database. {context.Database.GetDbConnection().DataSource}");
+                    // else
+                    //     Console.WriteLine("Can't connect to database.");
                 }
                 catch (Exception ex)
                 {

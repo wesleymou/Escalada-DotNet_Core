@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace escalada.Migrations
 {
     [DbContext(typeof(EscaladaContext))]
-    [Migration("20200226201043_InitialCreate")]
+    [Migration("20200228031322_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -112,6 +112,9 @@ namespace escalada.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<string>("name")
+                        .HasColumnType("text");
+
                     b.HasKey("id");
 
                     b.ToTable("providers");
@@ -170,6 +173,24 @@ namespace escalada.Migrations
                     b.HasIndex("providerIdid");
 
                     b.ToTable("subscriptionProviders");
+                });
+
+            modelBuilder.Entity("Escalada_DotNet_Core.Models.User", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("login")
+                        .HasColumnType("text");
+
+                    b.Property<string>("password")
+                        .HasColumnType("text");
+
+                    b.HasKey("id");
+
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("Escalada_DotNet_Core.Models.SubscriptionInEvents", b =>

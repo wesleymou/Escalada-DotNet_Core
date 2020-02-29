@@ -65,11 +65,26 @@ namespace escalada.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_providers", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "users",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    login = table.Column<string>(nullable: true),
+                    password = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_users", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -166,6 +181,9 @@ namespace escalada.Migrations
 
             migrationBuilder.DropTable(
                 name: "subscriptionsInEvents");
+
+            migrationBuilder.DropTable(
+                name: "users");
 
             migrationBuilder.DropTable(
                 name: "providers");

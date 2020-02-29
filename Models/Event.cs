@@ -12,43 +12,44 @@ namespace Escalada_DotNet_Core.Models
         public string local { get; set; }
         public uint capacidade { get; set; }
         public uint quorum { get; set; }
-        public decimal orcamentoPrevio
-        {
-            get => orcamentoPrevio;
-            set
-            {
-                if (value > 0)
-                    orcamentoPrevio = value;
-                else
-                    throw new System.ArgumentException("O valor deve ser positivo.");
-            }
-        }
-        public decimal valorIngresso
-        {
-            get => valorIngresso;
-            set
-            {
-                if (value > 0)
-                    valorIngresso = value;
-                else
-                    throw new System.ArgumentException("O valor deve ser positivo.");
-            }
-        }
+        public decimal orcamentoPrevio { get; set; }
+        // public decimal orcamentoPrevio
+        // {
+        //     get => orcamentoPrevio;
+        //     set
+        //     {
+        //         if (value > 0m)
+        //             orcamentoPrevio = value;
+        //         // else
+        //         //     throw new System.ArgumentException("O valor deve ser positivo.");
+        //     }
+        // }
+        public decimal valorIngresso { get; set; }
+        // {
+        //     get => valorIngresso;
+        //     set
+        //     {
+        //         if (value > 0m)
+        //             _valorIngresso = value;
+        //         else
+        //             throw new System.ArgumentException("O valor deve ser positivo.");
+        //     }
+        // }
         public SortedDictionary<DateTime, string> cronograma = new SortedDictionary<DateTime, string>();
         //	public int convenio[];
         public ICollection<SubscriptionInEvents> clientes { get; set; }
         public ICollection<SubscriptionProvider> fornecedores { get; set; }
-        public string status
-        {
-            get => status;
-            set
-            {
-                if (value == "Pronto" ||
-                    value == "Em espera")
-                    status = value;
-                else
-                    throw new System.ArgumentException("Status não aceito. Status possíveis: Pronto, Em espera.");
-            }
-        }
+        public string status { get; set; }
+        // {
+        //     get => status;
+        //     set
+        //     {
+        //         if (value == "Pronto" ||
+        //             value == "Em espera")
+        //             status = value;
+        //         else
+        //             throw new System.ArgumentException("Status não aceito. Status possíveis: Pronto, Em espera.");
+        //     }
+        // }
     }
 }

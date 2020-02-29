@@ -1,0 +1,260 @@
+<div class="text-center">
+<div id="evento">
+    <form id="formEvento" class="form-group">
+      <div class="row">
+        <div class="col">
+          <h2>Evento</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <input
+            id="formEventoCreate"
+            type="radio"
+            name="funcao"
+            value="create"
+            onchange="habilitaForm(this.checked, 'create', 'Evento')"
+          />
+          <label for="formEventoCreate">Cadastrar</label>
+          <input
+            id="formEventoRead"
+            type="radio"
+            name="funcao"
+            value="read"
+            onchange="habilitaForm(this.checked, 'read', 'Evento')"
+          />
+          <label for="formEventoRead">Consultar</label>
+          <!-- <input id="formEventoUpdate" type="radio" name="funcao" value="update"
+                            onchange="habilitaForm(this.checked, 'update', 'Evento')">
+                        <label for="formEventoUpdate">Atualizar</label>
+                        <input id="formEventoDelete" type="radio" name="funcao" value="delete"
+                            onchange="habilitaForm(this.checked, 'delete', 'Evento')">
+                        <label for="formEventoDelete">Excluir</label> -->
+        </div>
+        <div class="col">
+          <button
+            class="btnAcao btn"
+            style="display:none"
+            type="button"
+          ></button>
+          <button
+            class="btnIndicadores btn btn-info"
+            style="display:none"
+            type="button"
+            form=""
+            onclick="window.location.href = 'operacoes/indicadores.html';"
+          >
+            Indicadores
+          </button>
+          <button
+            class="btnUpdate btn btn-success"
+            style="display:none"
+            type="button"
+            form=""
+            onclick="executaXML('update','Evento')"
+          >
+            Atualizar
+          </button>
+          <button
+            class="btnDelete btn btn-danger"
+            style="display:none"
+            type="button"
+            form=""
+            onclick="executaXML('delete','Evento')"
+          >
+            Excluir
+          </button>
+          <button
+            class="btnOperacao btn btn-info"
+            style="display:none"
+            type="button"
+            form=""
+            onclick="window.location.href = 'operacoes/index.html';"
+          >
+            Operações
+          </button>
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col colNome">
+          <div class="form-group">
+            <label for="formEventoNome">Nome do evento</label><br />
+            <input
+              id="formEventoNome"
+              class="form-control"
+              name="nome"
+              type="text"
+              disabled="true"
+              required
+            /><br />
+          </div>
+        </div>
+        <div class="col colNovoNome">
+          <div class="form-group">
+            <label for="formEventoNovoNome" style="display:none"
+              >Nome do evento:</label
+            ><br />
+            <input
+              id="formEventoNovoNome"
+              style="display:none"
+              class="form-control"
+              name="novoNome"
+              type="text"
+              disabled="true"
+            /><br />
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="formEventoStatus">Status</label><br />
+            <!-- <input id="formEventoStatus" class="form-control" name="status" type="text" disabled="true" required> -->
+            <select
+              id="formEventoStatus"
+              class="custom-select"
+              name="status"
+              disabled="true"
+            >
+              <option selected></option>
+              <option value="Aguardando resposta">Aguardando resposta</option>
+              <option value="Resposta recebida">Resposta recebida</option>
+              <option value="Evento iniciado">Evento iniciado</option>
+              <option value="Evento terminado">Evento terminado</option>
+            </select>
+            <br />
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="formEventoLocal">Local</label><br />
+            <input
+              id="formEventoLocal"
+              class="form-control"
+              name="local"
+              type="text"
+              disabled="true"
+              required
+            /><br />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="formEventoDataInicio">Data de início</label><br />
+            <input
+              id="formEventoDataInicio"
+              class="form-control"
+              name="dataInicio"
+              type="datetime-local"
+              disabled="true"
+              required
+            /><br />
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="form-group">
+            <label for="formEventoDataTermino">Data de término</label><br />
+            <input
+              id="formEventoDataTermino"
+              class="form-control"
+              name="dataTermino"
+              type="datetime-local"
+              disabled="true"
+              required
+            /><br />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="formEventoCapacidade">Capacidade</label><br />
+            <input
+              id="formEventoCapacidade"
+              class="form-control"
+              name="capacidade"
+              type="number"
+              disabled="true"
+              required
+              min="1"
+            /><br />
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="form-group">
+            <label for="formEventoQuorum">Número mínimo de participantes:</label
+            ><br />
+            <input
+              id="formEventoQuorum"
+              class="form-control"
+              name="quorum"
+              type="number"
+              disabled="true"
+              required
+              min="1"
+            /><br />
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="form-group">
+            <label for="formEventoOrcamentoPrevio">Orçamento prévio:</label
+            ><br />
+            <input
+              id="formEventoOrcamentoPrevio"
+              class="form-control"
+              name="orcamentoPrevio"
+              type="number"
+              disabled="true"
+              required
+              min="1"
+              step="1"
+            /><br />
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="form-group">
+            <label for="formEventoValorIngresso">Valor do ingresso:</label
+            ><br />
+            <input
+              id="formEventoValorIngresso"
+              class="form-control"
+              name="valorIngresso"
+              type="number"
+              disabled="true"
+              required
+              min="1"
+              step="1"
+            /><br />
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  
+  <!-- Modal utilizado para exibir uma lista de clientes, eventos ou fornecedores -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitle"></h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid" id="modalBody"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
