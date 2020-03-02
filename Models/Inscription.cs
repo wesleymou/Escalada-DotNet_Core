@@ -2,33 +2,13 @@ namespace Escalada.Models
 {
     public class Inscription
     {
-        public int id { get; set; }
-        public uint qtdAdulto;
-        public uint qtdInfantil;
-        public decimal valorTotal
-        {
-            get => valorTotal;
-            set
-            {
-                if (value > 0)
-                    valorTotal = value;
-                else
-                    throw new System.ArgumentException("O valor deve ser positivo.");
-            }
-        }
-        public decimal valorRecebido
-        {
-            get => valorRecebido;
-            set
-            {
-                if (value > 0)
-                    valorRecebido = value;
-                else
-                    throw new System.ArgumentException("O valor deve ser positivo.");
-            }
-        }
-        public Customer clienteId;
-        public Event eventoId;
-        public PaymentType tipoPagamentoId { get; set; }
+        public int Id { get; set; }
+        public int QtdAdulto { get; set; }
+        public int QtdInfantil { get; set; }
+        public decimal ValorTotal { get; set; } // O valor deve ser positivo.
+        public decimal ValorRecebido { get; set; } // O valor deve ser positivo.
+        public Customer ClienteId;
+        public Event Evento;
+        public PaymentType TipoPagamento { get; set; }
     }
 }
