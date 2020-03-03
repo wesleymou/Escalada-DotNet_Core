@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Escalada.Models;
 using Escalada.Service;
 
-namespace escalada.Controllers
+namespace Escalada.Controllers
 {
     public class ProviderController : Controller
     {
