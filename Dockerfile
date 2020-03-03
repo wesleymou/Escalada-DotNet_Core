@@ -11,7 +11,7 @@
 # RUN dotnet build
 
 # ENTRYPOINT ["dotnet", "run"]
-# ENTRYPOINT ["dotnet", "escalada.dll"]
+# ENTRYPOINT ["dotnet", "Escalada.dll"]
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /app
@@ -30,5 +30,5 @@ EXPOSE 80
 EXPOSE 5000
 COPY --from=build /app/out .
 RUN ls
-# ENTRYPOINT ["dotnet", "escalada.dll"]
-CMD ASPNETCORE_URLS=http://*:$PORT dotnet escalada.dll
+# ENTRYPOINT ["dotnet", "Escalada.dll"]
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet Escalada.dll

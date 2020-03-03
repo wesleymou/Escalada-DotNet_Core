@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/escalada.csproj",
+                "${workspaceFolder}/Escalada.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -16,12 +16,12 @@
         {
             "label": "Migrations Add",
             "type": "shell",
-            "command":"echo -n \"Migration name: \"; read Name; dotnet ef migrations add $Name",
+            "command": "echo -n \"Migration name: \"; read Name; dotnet ef migrations add $Name",
         },
         {
             "label": "Migrations List",
             "type": "shell",
-            "command":"dotnet ef migrations list"
+            "command": "dotnet ef migrations list"
         },
         {
             "label": "Migrations Remove",
@@ -31,22 +31,22 @@
         {
             "label": "Database update",
             "type": "shell",
-            "command":"dotnet ef database update"
+            "command": "dotnet ef database update"
         },
         {
             "label": "Watch",
             "type": "shell",
-            "command":"dotnet watch run"
+            "command": "dotnet watch run"
         },
         {
             "label": "Publish",
             "type": "shell",
-            "command":"dotnet publish"
+            "command": "dotnet publish"
         },
         {
             "label": "Run",
             "type": "shell",
-            "command":"dotnet run"
+            "command": "dotnet run"
         }
     ]
 }
