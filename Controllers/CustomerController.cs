@@ -22,7 +22,7 @@ namespace escalada.Controllers
         // GET: Customer
         public async Task<IActionResult> Index()
         {
-            return View(await _context.customers.ToListAsync());
+            return View(await _context.Customers.ToListAsync());
         }
 
         // GET: Customer/Details/5
@@ -33,8 +33,8 @@ namespace escalada.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.customers
-                .FirstOrDefaultAsync(m => m.id == id);
+            var customer = await _context.Customers
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (customer == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace escalada.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,cpf,nome,numFone1,numFone2,endereco,email")] Customer customer)
+        public async Task<IActionResult> Create([Bind("Id,Cpf,Nome,NumFone1,NumFone2,Endereco,Email")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +73,7 @@ namespace escalada.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.customers.FindAsync(id);
+            var customer = await _context.Customers.FindAsync(id);
             if (customer == null)
             {
                 return NotFound();
@@ -86,9 +86,9 @@ namespace escalada.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,cpf,nome,numFone1,numFone2,endereco,email")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Cpf,Nome,NumFone1,NumFone2,Endereco,Email")] Customer customer)
         {
-            if (id != customer.id)
+            if (id != customer.Id)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace escalada.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerExists(customer.id))
+                    if (!CustomerExists(customer.Id))
                     {
                         return NotFound();
                     }
@@ -124,8 +124,8 @@ namespace escalada.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.customers
-                .FirstOrDefaultAsync(m => m.id == id);
+            var customer = await _context.Customers
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (customer == null)
             {
                 return NotFound();
@@ -139,15 +139,15 @@ namespace escalada.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var customer = await _context.customers.FindAsync(id);
-            _context.customers.Remove(customer);
+            var customer = await _context.Customers.FindAsync(id);
+            _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CustomerExists(int id)
         {
-            return _context.customers.Any(e => e.id == id);
+            return _context.Customers.Any(e => e.Id == id);
         }
     }
 }

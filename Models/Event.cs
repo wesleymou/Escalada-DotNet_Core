@@ -5,51 +5,18 @@ namespace Escalada.Models
 {
     public class Event
     {
-        public int id { get; set; }
-        public string nome { get; set; }
-        public DateTime dataInicio { get; set; }
-        public DateTime dataTermino { get; set; }
-        public string local { get; set; }
-        public uint capacidade { get; set; }
-        public uint quorum { get; set; }
-        public decimal orcamentoPrevio { get; set; }
-        // public decimal orcamentoPrevio
-        // {
-        //     get => orcamentoPrevio;
-        //     set
-        //     {
-        //         if (value > 0m)
-        //             orcamentoPrevio = value;
-        //         // else
-        //         //     throw new System.ArgumentException("O valor deve ser positivo.");
-        //     }
-        // }
-        public decimal valorIngresso { get; set; }
-        // {
-        //     get => valorIngresso;
-        //     set
-        //     {
-        //         if (value > 0m)
-        //             _valorIngresso = value;
-        //         else
-        //             throw new System.ArgumentException("O valor deve ser positivo.");
-        //     }
-        // }
-        public SortedDictionary<DateTime, string> cronograma = new SortedDictionary<DateTime, string>();
-        //	public int convenio[];
-        public ICollection<Inscription> inscricoes { get; set; }
-        public ICollection<Agreement> fornecedores { get; set; }
-        public string status { get; set; }
-        // {
-        //     get => status;
-        //     set
-        //     {
-        //         if (value == "Pronto" ||
-        //             value == "Em espera")
-        //             status = value;
-        //         else
-        //             throw new System.ArgumentException("Status não aceito. Status possíveis: Pronto, Em espera.");
-        //     }
-        // }
+        public int Id { get; set; }
+        public string Nome { get; set; }
+        public DateTime DataInicio { get; set; }
+        public DateTime DataTermino { get; set; }
+        public string Local { get; set; }
+        public int Capacidade { get; set; }
+        public int Quorum { get; set; }
+        public decimal OrcamentoPrevio { get; set; } // O valor deve ser positivo.
+        public decimal ValorIngresso { get; set; } // O valor deve ser positivo.
+        public string Cronograma { get; set; }
+        public virtual IEnumerable<Inscription> Inscricoes { get; set; }
+        public virtual IEnumerable<Agreement> Fornecedores { get; set; }
+        public EventStatus Status { get; set; } // Status não aceito. Status possíveis: Pronto, Em espera.
     }
 }

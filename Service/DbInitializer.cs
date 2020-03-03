@@ -8,53 +8,46 @@ namespace Escalada.Service
     {
         public static void Initialize(EscaladaContext context)
         {
-            // context.Database.EnsureCreated ();
+            context.Database.EnsureCreated();
 
             // Look for any students.
-            if (context.customers.Any()) {
+            if (context.Customers.Any()) {
                 return; // DB has been seeded
             }
 
-            uint[] cp = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1 };
-            var customer = new Customer(
-                cp,
-                "Kyouko",
-                cp,
-                cp,
-                "Distrito de Sangatsu",
-                "kyouko@gmail.com"
-                );
-
-            context.customers.Add(customer);
-
-            var provider = new Provider
+            context.Customers.Add(new Customer
             {
-                name = "Transpost"
-            };
+                Nome = "Kyouko",
+                Cpf = "1345678901",
+                Endereco = "Distrito de Sangatsu",
+                Email = "kyouko@gmail.com",
+                NumFone1 = "31988887777"
+            });
 
-            context.providers.Add(provider);
-
-            var eventt = new Event
+            context.Providers.Add(new Provider
             {
-                capacidade = 1,
-                dataInicio = DateTime.Now,
-                dataTermino = DateTime.Now,
-                local = "Distrito de Sangatsu",
-                orcamentoPrevio = 4.5m,
-                valorIngresso = 4.5m,
-                nome = "Visita",
-                quorum = 1,
-                status = "Pronto"
-            };
+                Id = 1,
+                Name = "Transpost"
+            });
 
-            context.events.Add(eventt);
+            context.Events.Add(new Event
+            {
+                Capacidade = 1,
+                DataInicio = DateTime.Now,
+                DataTermino = DateTime.Now,
+                Local = "Distrito de Sangatsu",
+                OrcamentoPrevio = 4.5m,
+                ValorIngresso = 4.5m,
+                Nome = "Visita",
+                Quorum = 1,
+                Status = EventStatus.Pronto
+            });
 
-            var user = new User
+            context.Users.Add(new User
             {
                 login = "admin",
                 password = "14159265358979323"
-            };
-            context.users.Add(user);
+            });
 
             context.SaveChanges();
         }

@@ -13,31 +13,31 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.nome)
+                @Html.DisplayNameFor(model => model.Nome)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.dataInicio)
+                @Html.DisplayNameFor(model => model.DataInicio)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.dataTermino)
+                @Html.DisplayNameFor(model => model.DataTermino)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.local)
+                @Html.DisplayNameFor(model => model.Local)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.capacidade)
+                @Html.DisplayNameFor(model => model.Capacidade)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.quorum)
+                @Html.DisplayNameFor(model => model.Quorum)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.orcamentoPrevio)
+                @Html.DisplayNameFor(model => model.OrcamentoPrevio)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.valorIngresso)
+                @Html.DisplayNameFor(model => model.ValorIngresso)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.status)
+                @Html.DisplayNameFor(model => model.Status)
             </th>
             <th></th>
         </tr>
@@ -46,36 +46,36 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.nome)
+                @Html.DisplayFor(modelItem => item.Nome)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.dataInicio)
+                @Html.DisplayFor(modelItem => item.DataInicio)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.dataTermino)
+                @Html.DisplayFor(modelItem => item.DataTermino)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.local)
+                @Html.DisplayFor(modelItem => item.Local)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.capacidade)
+                @Html.DisplayFor(modelItem => item.Capacidade)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.quorum)
+                @Html.DisplayFor(modelItem => item.Quorum)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.orcamentoPrevio)
+                @Html.DisplayFor(modelItem => item.OrcamentoPrevio)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.valorIngresso)
+                @Html.DisplayFor(modelItem => item.ValorIngresso)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.status)
+                @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

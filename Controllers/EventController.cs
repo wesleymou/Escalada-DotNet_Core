@@ -22,7 +22,7 @@ namespace escalada.Controllers
         // GET: Event
         public async Task<IActionResult> Index()
         {
-            return View(await _context.events.ToListAsync());
+            return View(await _context.Events.ToListAsync());
         }
 
         // GET: Event/Details/5
@@ -33,8 +33,8 @@ namespace escalada.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.events
-                .FirstOrDefaultAsync(m => m.id == id);
+            var @event = await _context.Events
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (@event == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace escalada.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,nome,dataInicio,dataTermino,local,capacidade,quorum,orcamentoPrevio,valorIngresso,status")] Event @event)
+        public async Task<IActionResult> Create([Bind("Id,Nome,DataInicio,DataTermino,Local,Capacidade,Quorum,OrcamentoPrevio,ValorIngresso,Status")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +73,7 @@ namespace escalada.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.events.FindAsync(id);
+            var @event = await _context.Events.FindAsync(id);
             if (@event == null)
             {
                 return NotFound();
@@ -86,9 +86,9 @@ namespace escalada.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,nome,dataInicio,dataTermino,local,capacidade,quorum,orcamentoPrevio,valorIngresso,status")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DataInicio,DataTermino,Local,Capacidade,Quorum,OrcamentoPrevio,ValorIngresso,Status")] Event @event)
         {
-            if (id != @event.id)
+            if (id != @event.Id)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace escalada.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EventExists(@event.id))
+                    if (!EventExists(@event.Id))
                     {
                         return NotFound();
                     }
@@ -124,8 +124,8 @@ namespace escalada.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.events
-                .FirstOrDefaultAsync(m => m.id == id);
+            var @event = await _context.Events
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (@event == null)
             {
                 return NotFound();
@@ -139,15 +139,15 @@ namespace escalada.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @event = await _context.events.FindAsync(id);
-            _context.events.Remove(@event);
+            var @event = await _context.Events.FindAsync(id);
+            _context.Events.Remove(@event);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool EventExists(int id)
         {
-            return _context.events.Any(e => e.id == id);
+            return _context.Events.Any(e => e.Id == id);
         }
     }
 }

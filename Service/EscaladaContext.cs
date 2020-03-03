@@ -10,17 +10,27 @@ namespace Escalada.Service
         public EscaladaContext(DbContextOptions<EscaladaContext> options) : base(options)
         {
         }
-        public DbSet<Customer> customers { get; set; }
-        public DbSet<Event> events { get; set; }
-        public DbSet<Provider> providers { get; set; }
-        public DbSet<Inscription> inscription { get; set; }
-        public DbSet<Agreement> agreement { get; set; }
-        public DbSet<PaymentType> paymentTypes { get; set; }
-        public DbSet<User> users {get;set;}
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<Provider> Providers { get; set; }
+        public DbSet<Inscription> Inscription { get; set; }
+        public DbSet<Agreement> Agreement { get; set; }
+        public DbSet<PaymentType> PaymentTypes { get; set; }
+        public DbSet<User> Users { get; set; }
 
-    // protected override void OnModelCreating(ModelBuilder modelBuilder)
-    // {
-    //     modelBuilder.Entity<Customer>().ToTable("Customer");
-    // }
-}
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                entityType.SetTableName(entityType.GetTableName().ToLower());
+                
+                foreach (var property in entityType.GetProperties())
+                {
+                    property.SetColumnName(property.GetColumnName().ToLower());
+                }
+
+            }
+        }
+    }
 }

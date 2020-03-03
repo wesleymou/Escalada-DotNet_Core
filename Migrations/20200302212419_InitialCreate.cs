@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace escalada.Migrations
+namespace Escalada.Migrations
 {
     public partial class InitialCreate : Migration
     {
@@ -14,10 +14,10 @@ namespace escalada.Migrations
                 {
                     id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    cpf = table.Column<long[]>(nullable: true),
+                    cpf = table.Column<string>(nullable: true),
                     nome = table.Column<string>(nullable: true),
-                    numFone1 = table.Column<long[]>(nullable: true),
-                    numFone2 = table.Column<long[]>(nullable: true),
+                    numfone1 = table.Column<string>(nullable: true),
+                    numfone2 = table.Column<string>(nullable: true),
                     endereco = table.Column<string>(nullable: true),
                     email = table.Column<string>(nullable: true)
                 },
@@ -33,14 +33,15 @@ namespace escalada.Migrations
                     id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     nome = table.Column<string>(nullable: true),
-                    dataInicio = table.Column<DateTime>(nullable: false),
-                    dataTermino = table.Column<DateTime>(nullable: false),
+                    datainicio = table.Column<DateTime>(nullable: false),
+                    datatermino = table.Column<DateTime>(nullable: false),
                     local = table.Column<string>(nullable: true),
-                    capacidade = table.Column<long>(nullable: false),
-                    quorum = table.Column<long>(nullable: false),
-                    orcamentoPrevio = table.Column<decimal>(nullable: false),
-                    valorIngresso = table.Column<decimal>(nullable: false),
-                    status = table.Column<string>(nullable: true)
+                    capacidade = table.Column<int>(nullable: false),
+                    quorum = table.Column<int>(nullable: false),
+                    orcamentoprevio = table.Column<decimal>(nullable: false),
+                    valoringresso = table.Column<decimal>(nullable: false),
+                    cronograma = table.Column<string>(nullable: true),
+                    status = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -48,16 +49,16 @@ namespace escalada.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "paymentTypes",
+                name: "paymenttypes",
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    type = table.Column<string>(nullable: true)
+                    description = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_paymentTypes", x => x.id);
+                    table.PrimaryKey("PK_paymenttypes", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -88,99 +89,99 @@ namespace escalada.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "subscriptionsInEvents",
+                name: "inscription",
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    valorTotal = table.Column<decimal>(nullable: false),
-                    valorRecebido = table.Column<decimal>(nullable: false),
-                    tipoPagamentoIdid = table.Column<int>(nullable: true),
-                    Customerid = table.Column<int>(nullable: true),
-                    Eventid = table.Column<int>(nullable: true)
+                    valortotal = table.Column<decimal>(nullable: false),
+                    valorrecebido = table.Column<decimal>(nullable: false),
+                    tipopagamentoid = table.Column<int>(nullable: true),
+                    customerid = table.Column<int>(nullable: true),
+                    eventid = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_subscriptionsInEvents", x => x.id);
+                    table.PrimaryKey("PK_inscription", x => x.id);
                     table.ForeignKey(
-                        name: "FK_subscriptionsInEvents_customers_Customerid",
-                        column: x => x.Customerid,
+                        name: "FK_inscription_customers_customerid",
+                        column: x => x.customerid,
                         principalTable: "customers",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_subscriptionsInEvents_events_Eventid",
-                        column: x => x.Eventid,
+                        name: "FK_inscription_events_eventid",
+                        column: x => x.eventid,
                         principalTable: "events",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_subscriptionsInEvents_paymentTypes_tipoPagamentoIdid",
-                        column: x => x.tipoPagamentoIdid,
-                        principalTable: "paymentTypes",
+                        name: "FK_inscription_paymenttypes_tipopagamentoid",
+                        column: x => x.tipopagamentoid,
+                        principalTable: "paymenttypes",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "subscriptionProviders",
+                name: "agreement",
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    providerIdid = table.Column<int>(nullable: true),
-                    Eventid = table.Column<int>(nullable: true)
+                    providerid = table.Column<int>(nullable: true),
+                    eventid = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_subscriptionProviders", x => x.id);
+                    table.PrimaryKey("PK_agreement", x => x.id);
                     table.ForeignKey(
-                        name: "FK_subscriptionProviders_events_Eventid",
-                        column: x => x.Eventid,
+                        name: "FK_agreement_events_eventid",
+                        column: x => x.eventid,
                         principalTable: "events",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_subscriptionProviders_providers_providerIdid",
-                        column: x => x.providerIdid,
+                        name: "FK_agreement_providers_providerid",
+                        column: x => x.providerid,
                         principalTable: "providers",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_subscriptionProviders_Eventid",
-                table: "subscriptionProviders",
-                column: "Eventid");
+                name: "IX_agreement_eventid",
+                table: "agreement",
+                column: "eventid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_subscriptionProviders_providerIdid",
-                table: "subscriptionProviders",
-                column: "providerIdid");
+                name: "IX_agreement_providerid",
+                table: "agreement",
+                column: "providerid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_subscriptionsInEvents_Customerid",
-                table: "subscriptionsInEvents",
-                column: "Customerid");
+                name: "IX_inscription_customerid",
+                table: "inscription",
+                column: "customerid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_subscriptionsInEvents_Eventid",
-                table: "subscriptionsInEvents",
-                column: "Eventid");
+                name: "IX_inscription_eventid",
+                table: "inscription",
+                column: "eventid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_subscriptionsInEvents_tipoPagamentoIdid",
-                table: "subscriptionsInEvents",
-                column: "tipoPagamentoIdid");
+                name: "IX_inscription_tipopagamentoid",
+                table: "inscription",
+                column: "tipopagamentoid");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "subscriptionProviders");
+                name: "agreement");
 
             migrationBuilder.DropTable(
-                name: "subscriptionsInEvents");
+                name: "inscription");
 
             migrationBuilder.DropTable(
                 name: "users");
@@ -195,7 +196,7 @@ namespace escalada.Migrations
                 name: "events");
 
             migrationBuilder.DropTable(
-                name: "paymentTypes");
+                name: "paymenttypes");
         }
     }
 }

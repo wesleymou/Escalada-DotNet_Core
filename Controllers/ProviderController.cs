@@ -22,7 +22,7 @@ namespace escalada.Controllers
         // GET: Provider
         public async Task<IActionResult> Index()
         {
-            return View(await _context.providers.ToListAsync());
+            return View(await _context.Providers.ToListAsync());
         }
 
         // GET: Provider/Details/5
@@ -33,8 +33,8 @@ namespace escalada.Controllers
                 return NotFound();
             }
 
-            var provider = await _context.providers
-                .FirstOrDefaultAsync(m => m.id == id);
+            var provider = await _context.Providers
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (provider == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace escalada.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,name")] Provider provider)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Provider provider)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +73,7 @@ namespace escalada.Controllers
                 return NotFound();
             }
 
-            var provider = await _context.providers.FindAsync(id);
+            var provider = await _context.Providers.FindAsync(id);
             if (provider == null)
             {
                 return NotFound();
@@ -86,9 +86,9 @@ namespace escalada.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,name")] Provider provider)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Provider provider)
         {
-            if (id != provider.id)
+            if (id != provider.Id)
             {
                 return NotFound();
             }
@@ -102,7 +102,7 @@ namespace escalada.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProviderExists(provider.id))
+                    if (!ProviderExists(provider.Id))
                     {
                         return NotFound();
                     }
@@ -124,8 +124,8 @@ namespace escalada.Controllers
                 return NotFound();
             }
 
-            var provider = await _context.providers
-                .FirstOrDefaultAsync(m => m.id == id);
+            var provider = await _context.Providers
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (provider == null)
             {
                 return NotFound();
@@ -139,15 +139,15 @@ namespace escalada.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var provider = await _context.providers.FindAsync(id);
-            _context.providers.Remove(provider);
+            var provider = await _context.Providers.FindAsync(id);
+            _context.Providers.Remove(provider);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProviderExists(int id)
         {
-            return _context.providers.Any(e => e.id == id);
+            return _context.Providers.Any(e => e.Id == id);
         }
     }
 }

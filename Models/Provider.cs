@@ -4,8 +4,8 @@ namespace Escalada.Models
 {
     public class Provider
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public ICollection<Agreement> agreementId { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public ICollection<Agreement> AgreementId { get; set; }
     }
 }
