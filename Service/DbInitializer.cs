@@ -40,7 +40,7 @@ namespace Escalada.Service
                 ValorIngresso = 4.5m,
                 Nome = "Visita",
                 Quorum = 1,
-                Status = EventStatus.Pronto
+                Status = EventStatus.All.FirstOrDefault(s => s.Id == 1)
             });
 
             context.Users.Add(new User

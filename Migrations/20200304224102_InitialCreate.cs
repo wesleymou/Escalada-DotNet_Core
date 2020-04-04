@@ -94,6 +94,8 @@ namespace Escalada.Migrations
                 {
                     id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    qtdadulto = table.Column<int>(nullable: false),
+                    qtdinfantil = table.Column<int>(nullable: false),
                     valortotal = table.Column<decimal>(nullable: false),
                     valorrecebido = table.Column<decimal>(nullable: false),
                     tipopagamentoid = table.Column<int>(nullable: true),

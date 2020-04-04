@@ -1,4 +1,4 @@
-@model Escalada.Models.Event
+@model EventViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -54,8 +54,16 @@
                 <span asp-validation-for="ValorIngresso" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
+                <label asp-for="Cronograma" class="control-label"></label>
+                <input asp-for="Cronograma" class="form-control" />
+                <span asp-validation-for="Cronograma" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StatusId" class="control-label">Status</label>
+                <select asp-for="StatusId" asp-items="Model.All" class="form-control" value="Status.Id">
+                    <option disabled selected hidden value=@Model.Status.Id>@Model.Status.Nome</option>
+                </select>
+                
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">
