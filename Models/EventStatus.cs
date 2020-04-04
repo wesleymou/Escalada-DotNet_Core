@@ -1,8 +1,26 @@
+
+using System.Collections.Generic;
+using System.ComponentModel;
+
 namespace Escalada.Models
 {
-    public enum EventStatus
+    public class EventStatus
     {
-        EmEspera = 1,
-        Pronto = 2,
+        public int Id { get; set; }
+        public string Nome { get; set; }
+
+        public static List<EventStatus> All { get; } = new List<EventStatus>
+        {
+            new EventStatus
+            {
+                Id = 1,
+                Nome = "Em espera"
+            },
+            new EventStatus
+            {
+                Id = 2,
+                Nome = "Pronto"
+            }
+        };
     }
 }
