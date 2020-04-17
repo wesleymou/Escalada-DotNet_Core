@@ -17,20 +17,5 @@ namespace Escalada.Service
         public DbSet<Agreement> Agreement { get; set; }
         public DbSet<PaymentType> PaymentTypes { get; set; }
         public DbSet<User> Users { get; set; }
-
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-            {
-                entityType.SetTableName(entityType.GetTableName().ToLower());
-                
-                foreach (var property in entityType.GetProperties())
-                {
-                    property.SetColumnName(property.GetColumnName().ToLower());
-                }
-
-            }
-        }
     }
 }

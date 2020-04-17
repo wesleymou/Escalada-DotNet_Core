@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 @model Escalada.Models.ViewModels.EventEditViewModel
-=======
-@model EventViewModel
->>>>>>> bee1129588bbf446af283cde431c6c755e0a37bf
 
 @{
     ViewData["Title"] = "Editar";
@@ -58,9 +54,9 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="Cronograma" class="control-label"></label>
-                <input asp-for="Cronograma" class="form-control" />
-                <span asp-validation-for="Cronograma" class="text-danger"></span>
+                <label asp-for="Event.Cronograma" class="control-label"></label>
+                <input asp-for="Event.Cronograma" class="form-control" />
+                <span asp-validation-for="Event.Cronograma" class="text-danger"></span>
             </div>
 
             <div class="form-group">

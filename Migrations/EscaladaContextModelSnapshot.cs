@@ -23,16 +23,13 @@ namespace Escalada.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int?>("EventId")
-                        .HasColumnName("eventid")
                         .HasColumnType("integer");
 
                     b.Property<int?>("ProviderId")
-                        .HasColumnName("providerid")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -41,160 +38,113 @@ namespace Escalada.Migrations
 
                     b.HasIndex("ProviderId");
 
-                    b.ToTable("agreement");
+                    b.ToTable("Agreement");
                 });
 
             modelBuilder.Entity("Escalada.Models.Customer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Cpf")
-                        .HasColumnName("cpf")
                         .HasColumnType("text");
 
                     b.Property<string>("Email")
-                        .HasColumnName("email")
                         .HasColumnType("text");
 
                     b.Property<string>("Endereco")
-                        .HasColumnName("endereco")
                         .HasColumnType("text");
 
                     b.Property<bool>("Excluido")
-                        .HasColumnName("excluido")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Nome")
-                        .HasColumnName("nome")
                         .HasColumnType("text");
 
                     b.Property<string>("NumFone1")
-                        .HasColumnName("numfone1")
                         .HasColumnType("text");
 
                     b.Property<string>("NumFone2")
-                        .HasColumnName("numfone2")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("customers");
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("Escalada.Models.Event", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int>("Capacidade")
-                        .HasColumnName("capacidade")
                         .HasColumnType("integer");
 
                     b.Property<string>("Cronograma")
-                        .HasColumnName("cronograma")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("DataInicio")
-                        .HasColumnName("datainicio")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime>("DataTermino")
-                        .HasColumnName("datatermino")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("Excluido")
-                        .HasColumnName("excluido")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Local")
-                        .HasColumnName("local")
                         .HasColumnType("text");
 
                     b.Property<string>("Nome")
-                        .HasColumnName("nome")
                         .HasColumnType("text");
 
                     b.Property<decimal>("OrcamentoPrevio")
-                        .HasColumnName("orcamentoprevio")
                         .HasColumnType("numeric");
 
                     b.Property<int>("Quorum")
-                        .HasColumnName("quorum")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("StatusId")
-                        .HasColumnName("statusid")
+                    b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<decimal>("ValorIngresso")
-                        .HasColumnName("valoringresso")
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StatusId");
-
-                    b.ToTable("events");
-                });
-
-            modelBuilder.Entity("Escalada.Models.EventStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("Nome")
-                        .HasColumnName("nome")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("eventstatus");
+                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("Escalada.Models.Inscription", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int?>("CustomerId")
-                        .HasColumnName("customerid")
                         .HasColumnType("integer");
 
                     b.Property<int?>("EventId")
-                        .HasColumnName("eventid")
                         .HasColumnType("integer");
 
                     b.Property<int>("QtdAdulto")
-                        .HasColumnName("qtdadulto")
                         .HasColumnType("integer");
 
                     b.Property<int>("QtdInfantil")
-                        .HasColumnName("qtdinfantil")
                         .HasColumnType("integer");
 
                     b.Property<int?>("TipoPagamentoId")
-                        .HasColumnName("tipopagamentoid")
                         .HasColumnType("integer");
 
                     b.Property<decimal>("ValorRecebido")
-                        .HasColumnName("valorrecebido")
                         .HasColumnType("numeric");
 
                     b.Property<decimal>("ValorTotal")
-                        .HasColumnName("valortotal")
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");
@@ -205,62 +155,55 @@ namespace Escalada.Migrations
 
                     b.HasIndex("TipoPagamentoId");
 
-                    b.ToTable("inscription");
+                    b.ToTable("Inscription");
                 });
 
             modelBuilder.Entity("Escalada.Models.PaymentType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<int>("Description")
-                        .HasColumnName("description")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.ToTable("paymenttypes");
+                    b.ToTable("PaymentTypes");
                 });
 
             modelBuilder.Entity("Escalada.Models.Provider", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Name")
-                        .HasColumnName("name")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("providers");
+                    b.ToTable("Providers");
                 });
 
             modelBuilder.Entity("Escalada.Models.User", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("login")
-                        .HasColumnName("login")
                         .HasColumnType("text");
 
                     b.Property<string>("password")
-                        .HasColumnName("password")
                         .HasColumnType("text");
 
                     b.HasKey("id");
 
-                    b.ToTable("users");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Escalada.Models.Agreement", b =>
@@ -272,13 +215,6 @@ namespace Escalada.Migrations
                     b.HasOne("Escalada.Models.Provider", "Provider")
                         .WithMany("AgreementId")
                         .HasForeignKey("ProviderId");
-                });
-
-            modelBuilder.Entity("Escalada.Models.Event", b =>
-                {
-                    b.HasOne("Escalada.Models.EventStatus", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId");
                 });
 
             modelBuilder.Entity("Escalada.Models.Inscription", b =>
