@@ -27,25 +27,16 @@ namespace Escalada.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "events",
+                name: "eventstatus",
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    nome = table.Column<string>(nullable: true),
-                    datainicio = table.Column<DateTime>(nullable: false),
-                    datatermino = table.Column<DateTime>(nullable: false),
-                    local = table.Column<string>(nullable: true),
-                    capacidade = table.Column<int>(nullable: false),
-                    quorum = table.Column<int>(nullable: false),
-                    orcamentoprevio = table.Column<decimal>(nullable: false),
-                    valoringresso = table.Column<decimal>(nullable: false),
-                    cronograma = table.Column<string>(nullable: true),
-                    status = table.Column<int>(nullable: false)
+                    nome = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_events", x => x.id);
+                    table.PrimaryKey("PK_eventstatus", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -89,6 +80,60 @@ namespace Escalada.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "events",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    nome = table.Column<string>(nullable: true),
+                    datainicio = table.Column<DateTime>(nullable: false),
+                    datatermino = table.Column<DateTime>(nullable: false),
+                    local = table.Column<string>(nullable: true),
+                    capacidade = table.Column<int>(nullable: false),
+                    quorum = table.Column<int>(nullable: false),
+                    orcamentoprevio = table.Column<decimal>(nullable: false),
+                    valoringresso = table.Column<decimal>(nullable: false),
+                    cronograma = table.Column<string>(nullable: true),
+                    statusid = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_events", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_events_eventstatus_statusid",
+                        column: x => x.statusid,
+                        principalTable: "eventstatus",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "agreement",
+                columns: table => new
+                {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    providerid = table.Column<int>(nullable: true),
+                    eventid = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_agreement", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_agreement_events_eventid",
+                        column: x => x.eventid,
+                        principalTable: "events",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_agreement_providers_providerid",
+                        column: x => x.providerid,
+                        principalTable: "providers",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "inscription",
                 columns: table => new
                 {
@@ -125,32 +170,6 @@ namespace Escalada.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "agreement",
-                columns: table => new
-                {
-                    id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    providerid = table.Column<int>(nullable: true),
-                    eventid = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_agreement", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_agreement_events_eventid",
-                        column: x => x.eventid,
-                        principalTable: "events",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_agreement_providers_providerid",
-                        column: x => x.providerid,
-                        principalTable: "providers",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_agreement_eventid",
                 table: "agreement",
@@ -160,6 +179,11 @@ namespace Escalada.Migrations
                 name: "IX_agreement_providerid",
                 table: "agreement",
                 column: "providerid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_events_statusid",
+                table: "events",
+                column: "statusid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_inscription_customerid",
@@ -199,6 +223,9 @@ namespace Escalada.Migrations
 
             migrationBuilder.DropTable(
                 name: "paymenttypes");
+
+            migrationBuilder.DropTable(
+                name: "eventstatus");
         }
     }
 }
