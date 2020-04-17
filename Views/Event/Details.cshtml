@@ -1,13 +1,18 @@
 @model Escalada.Models.Event
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalhes do evento";
 }
 
-<h1>Details</h1>
+<h1>Evento</h1>
+<h4>Detalhes</h4>
+
+@if (Model.Excluido)
+{
+    <div class="alert alert-danger">Este evento foi excluído do sistema e está arquivado para consulta.</div>
+}
 
 <div>
-    <h4>Event</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -67,6 +72,9 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @if (!Model.Excluido)
+    {
+        <span><a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> | </span>
+    }
+    <a asp-action="Index">Retornar à lista</a>
 </div>

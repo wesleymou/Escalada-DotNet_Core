@@ -11,7 +11,8 @@ namespace Escalada.Service
             context.Database.EnsureCreated();
 
             // Look for any students.
-            if (context.Customers.Any()) {
+            if (context.Customers.Any())
+            {
                 return; // DB has been seeded
             }
 
@@ -40,7 +41,7 @@ namespace Escalada.Service
                 ValorIngresso = 4.5m,
                 Nome = "Visita",
                 Quorum = 1,
-                Status = EventStatus.Pronto
+                Status = EventStatus.EmEspera
             });
 
             context.Users.Add(new User

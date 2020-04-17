@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Escalada.Models;
+using Escalada.Models.ViewModels;
 
 namespace Escalada.Controllers
 {

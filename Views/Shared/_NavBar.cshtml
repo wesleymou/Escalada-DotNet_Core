@@ -1,18 +1,14 @@
 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <img src="~/img/Summit-preto.png" class="d-inline-block align-top navbar-brand" alt="" style="max-width:10%;">
-                @* <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    Escalada
-                </a> *@
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" title="Página inicial">
+                    <img src="~/img/Summit-preto.png" class="d-inline-block align-top navbar-brand" alt="" style="max-width:10%;">
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
                         <li class="nav-item">
                             <div class="nav-divider"></div>
                         </li>
@@ -24,9 +20,6 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Provider" asp-action="Index">Fornecedores</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
                 </div>

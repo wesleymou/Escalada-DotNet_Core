@@ -1,12 +1,10 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Escalada.Models;
 using Escalada.Service;
+using Escalada.Models.ViewModels;
 
 namespace Escalada.Controllers
 {
@@ -20,9 +18,13 @@ namespace Escalada.Controllers
         }
 
         // GET: Event
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool excluidos)
         {
-            return View(await _context.Events.ToListAsync());
+            var events = await _context.Events
+                .Where(e => excluidos || e.Excluido == false)
+                .ToListAsync();
+
+            return View(events);
         }
 
         // GET: Event/Details/5
@@ -46,7 +48,7 @@ namespace Escalada.Controllers
         // GET: Event/Create
         public IActionResult Create()
         {
-            return View();
+            return View(EventViewModelFactory.BuildCreateViewModel());
         }
 
         // POST: Event/Create
@@ -62,7 +64,7 @@ namespace Escalada.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(@event);
+            return View(EventViewModelFactory.BuildEditViewModel(@event));
         }
 
         // GET: Event/Edit/5
@@ -78,7 +80,8 @@ namespace Escalada.Controllers
             {
                 return NotFound();
             }
-            return View(@event);
+
+            return View(EventViewModelFactory.BuildEditViewModel(@event));
         }
 
         // POST: Event/Edit/5
@@ -113,7 +116,7 @@ namespace Escalada.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(@event);
+            return View(EventViewModelFactory.BuildEditViewModel(@event));
         }
 
         // GET: Event/Delete/5
@@ -140,7 +143,9 @@ namespace Escalada.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var @event = await _context.Events.FindAsync(id);
-            _context.Events.Remove(@event);
+
+            @event.Excluido = true;
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
