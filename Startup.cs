@@ -11,52 +11,61 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Escalada {
-    public class Startup {
-        public Startup (IWebHostEnvironment env) {
-            var build = new ConfigurationBuilder ()
-                .AddJsonFile ("appsettings.json")
-                .AddJsonFile ("appsettings.env.json", optional : true, reloadOnChange : true)
-                .AddJsonFile ($"appsettings.{env.EnvironmentName}.json", optional : true, reloadOnChange : true)
-                .AddEnvironmentVariables ();
+namespace Escalada
+{
+    public class Startup
+    {
+        public Startup(IWebHostEnvironment env)
+        {
+            var build = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile("appsettings.env.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables();
 
-            Configuration = build.Build ();
+            Configuration = build.Build();
         }
 
         public IConfiguration Configuration { get; }
         public IWebHostEnvironment Env { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices (IServiceCollection services) {
-            services.AddControllersWithViews ();
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddControllersWithViews();
 
-            services.AddDbContext<EscaladaContext> (options =>
-                options.UseNpgsql (Configuration.GetConnectionString ("DefaultConnection")));
+            services.AddDbContext<EscaladaContext>(options =>
+               options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
-            // services.AddRazorPages ()
-            //     .AddRazorRuntimeCompilation ();
+            // services.AddRazorPages()
+            //     .AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure (IApplicationBuilder app, IWebHostEnvironment env) {
-            if (env.IsDevelopment ()) {
-                app.UseDeveloperExceptionPage ();
-            } else {
-                app.UseExceptionHandler ("/Home/Error");
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts ();
+                app.UseHsts();
             }
 
-            app.UseHttpsRedirection ();
+            app.UseHttpsRedirection();
 
-            app.UseStaticFiles ();
+            app.UseStaticFiles();
 
-            app.UseRouting ();
+            app.UseRouting();
 
-            app.UseAuthorization ();
+            app.UseAuthorization();
 
-            app.UseEndpoints (endpoints => {
-                endpoints.MapControllerRoute (
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
