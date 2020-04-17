@@ -37,6 +37,7 @@ namespace Escalada.Controllers
 
             var @event = await _context.Events
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (@event == null)
             {
                 return NotFound();
@@ -56,7 +57,7 @@ namespace Escalada.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,DataInicio,DataTermino,Local,Capacidade,Quorum,OrcamentoPrevio,ValorIngresso,Status")] Event @event)
+        public async Task<IActionResult> Create([Bind("Id,Nome,DataInicio,DataTermino,Local,Capacidade,Quorum,OrcamentoPrevio,ValorIngresso,Cronograma,Status")] Event @event)
         {
             if (ModelState.IsValid)
             {
@@ -75,7 +76,9 @@ namespace Escalada.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Events.FindAsync(id);
+            var @event = await _context.Events
+                .FirstAsync(m => id == m.Id);
+
             if (@event == null)
             {
                 return NotFound();
@@ -89,7 +92,7 @@ namespace Escalada.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DataInicio,DataTermino,Local,Capacidade,Quorum,OrcamentoPrevio,ValorIngresso,Status")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DataInicio,DataTermino,Local,Capacidade,Quorum,OrcamentoPrevio,ValorIngresso,Cronograma,StatusId")] Event @event)
         {
             if (id != @event.Id)
             {
@@ -128,6 +131,7 @@ namespace Escalada.Controllers
             }
 
             var @event = await _context.Events
+                .Include(e => e.Status)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (@event == null)
             {

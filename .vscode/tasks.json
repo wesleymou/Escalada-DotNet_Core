@@ -39,6 +39,11 @@
             "command": "dotnet watch run"
         },
         {
+            "label": "watch Production",
+            "type": "shell",
+            "command":"dotnet watch run --launch-profile Production"
+        },
+        {
             "label": "Publish",
             "type": "shell",
             "command": "dotnet publish"
@@ -47,6 +52,11 @@
             "label": "Run",
             "type": "shell",
             "command": "dotnet run"
+        },
+        {
+            "label": "Run Production",
+            "type": "shell",
+            "command":"dotnet run --launch-profile Production"
         }
     ]
 }

@@ -129,8 +129,8 @@ namespace Escalada.Migrations
                         .HasColumnName("quorum")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Status")
-                        .HasColumnName("status")
+                    b.Property<int?>("StatusId")
+                        .HasColumnName("statusid")
                         .HasColumnType("integer");
 
                     b.Property<decimal>("ValorIngresso")
@@ -139,7 +139,26 @@ namespace Escalada.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("StatusId");
+
                     b.ToTable("events");
+                });
+
+            modelBuilder.Entity("Escalada.Models.EventStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Nome")
+                        .HasColumnName("nome")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("eventstatus");
                 });
 
             modelBuilder.Entity("Escalada.Models.Inscription", b =>
@@ -253,6 +272,13 @@ namespace Escalada.Migrations
                     b.HasOne("Escalada.Models.Provider", "Provider")
                         .WithMany("AgreementId")
                         .HasForeignKey("ProviderId");
+                });
+
+            modelBuilder.Entity("Escalada.Models.Event", b =>
+                {
+                    b.HasOne("Escalada.Models.EventStatus", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId");
                 });
 
             modelBuilder.Entity("Escalada.Models.Inscription", b =>
