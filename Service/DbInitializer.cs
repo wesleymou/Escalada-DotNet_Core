@@ -4,52 +4,90 @@ using Escalada.Models;
 
 namespace Escalada.Service
 {
-    public static class DbInitializer
+  public static class DbInitializer
+  {
+    public static void Initialize(EscaladaContext context)
     {
-        public static void Initialize(EscaladaContext context)
+      context.Database.EnsureCreated();
+
+      // Look for any students.
+      if (!context.PaymentTypes.Any())
+      {
+        context.PaymentTypes.Add(new PaymentType
         {
-            context.Database.EnsureCreated();
+          Description = "Dinheiro"
+        });
 
-            // Look for any students.
-            if (context.Customers.Any()) {
-                return; // DB has been seeded
-            }
+        context.PaymentTypes.Add(new PaymentType
+        {
+          Description = "Débito"
+        });
 
-            context.Customers.Add(new Customer
-            {
-                Nome = "Kyouko",
-                Cpf = "1345678901",
-                Endereco = "Distrito de Sangatsu",
-                Email = "kyouko@gmail.com",
-                NumFone1 = "31988887777"
-            });
+        context.PaymentTypes.Add(new PaymentType
+        {
+          Description = "Crédito"
+        });
+      }
 
-            context.Providers.Add(new Provider
-            {
-                Id = 1,
-                Name = "Transpost"
-            });
+      if (!context.EventStatus.Any())
+      {
+        context.EventStatus.Add(new EventStatus
+        {
+          Nome = "Em espera"
+        });
 
-            context.Events.Add(new Event
-            {
-                Capacidade = 1,
-                DataInicio = DateTime.Now,
-                DataTermino = DateTime.Now,
-                Local = "Distrito de Sangatsu",
-                OrcamentoPrevio = 4.5m,
-                ValorIngresso = 4.5m,
-                Nome = "Visita",
-                Quorum = 1,
-                Status = EventStatus.All.FirstOrDefault(s => s.Id == 1)
-            });
+        context.EventStatus.Add(new EventStatus
+        {
+          Nome = "Pronto"
+        });
+      }
 
-            context.Users.Add(new User
-            {
-                login = "admin",
-                password = "14159265358979323"
-            });
+      if (!context.Customers.Any())
+      {
+        context.Customers.Add(new Customer
+        {
+          Nome = "Kyouko",
+          Cpf = "1345678901",
+          Endereco = "Distrito de Sangatsu",
+          Email = "kyouko@gmail.com",
+          NumFone1 = "31988887777"
+        });
+      }
 
-            context.SaveChanges();
-        }
+      if (!context.Providers.Any())
+      {
+        context.Providers.Add(new Provider
+        {
+          Name = "Transpost"
+        });
+      }
+
+      if (!context.Events.Any())
+      {
+        context.Events.Add(new Event
+        {
+          Capacidade = 1,
+          DataInicio = DateTime.Now,
+          DataTermino = DateTime.Now,
+          Local = "Distrito de Sangatsu",
+          OrcamentoPrevio = 4.5m,
+          ValorIngresso = 4.5m,
+          Nome = "Visita",
+          Quorum = 1,
+          Status = context.EventStatus.FirstOrDefault(s => s.Id == 1)
+        });
+      }
+
+      // if (!context.Users.Any())
+      // {
+      //     context.Users.Add(new User
+      //     {
+      //         login = "admin",
+      //         password = "admin"
+      //     });
+      // }
+
+      context.SaveChanges();
     }
+  }
 }

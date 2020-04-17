@@ -1,62 +1,77 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "Build",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/Escalada.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "Migrations Add",
-            "type": "shell",
-            "command": "echo -n \"Migration name: \"; read Name; dotnet ef migrations add $Name",
-        },
-        {
-            "label": "Migrations List",
-            "type": "shell",
-            "command": "dotnet ef migrations list"
-        },
-        {
-            "label": "Migrations Remove",
-            "type": "shell",
-            "command": "dotnet ef migrations remove"
-        },
-        {
-            "label": "Database update",
-            "type": "shell",
-            "command": "dotnet ef database update"
-        },
-        {
-            "label": "Watch",
-            "type": "shell",
-            "command": "dotnet watch run"
-        },
-        {
-            "label": "watch Production",
-            "type": "shell",
-            "command":"dotnet watch run --launch-profile Production"
-        },
-        {
-            "label": "Publish",
-            "type": "shell",
-            "command": "dotnet publish"
-        },
-        {
-            "label": "Run",
-            "type": "shell",
-            "command": "dotnet run"
-        },
-        {
-            "label": "Run Production",
-            "type": "shell",
-            "command":"dotnet run --launch-profile Production"
-        }
-    ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/Escalada.csproj",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Migrations Escalada Add",
+      "type": "shell",
+      "command": "echo -n \"Migration name: \"; read Name; dotnet ef migrations add $Name -c EscaladaContext"
+    },
+    {
+      "label": "Migrations Identity Add",
+      "type": "shell",
+      "command": "echo -n \"Migration name: \"; read Name; dotnet ef migrations add $Name -c IdentityContext"
+    },
+    {
+      "label": "Migrations Escalada List",
+      "type": "shell",
+      "command": "dotnet ef migrations list -c EscaladaContext"
+    },
+    {
+      "label": "Migrations Identity List",
+      "type": "shell",
+      "command": "dotnet ef migrations list -c IdentityContext"
+    },
+    {
+      "label": "Migrations Remove",
+      "type": "shell",
+      "command": "dotnet ef migrations remove"
+    },
+    {
+      "label": "Database Escalada update ",
+      "type": "shell",
+      "command": "dotnet ef database update -c EscaladaContext"
+    },
+    {
+      "label": "Database Identity update ",
+      "type": "shell",
+      "command": "dotnet ef database update -c IdentityContext"
+    },
+    {
+      "label": "Watch",
+      "type": "shell",
+      "command": "dotnet watch run"
+    },
+    {
+      "label": "watch Production",
+      "type": "shell",
+      "command": "dotnet watch run --launch-profile Production"
+    },
+    {
+      "label": "Publish",
+      "type": "shell",
+      "command": "dotnet publish"
+    },
+    {
+      "label": "Run",
+      "type": "shell",
+      "command": "dotnet run"
+    },
+    {
+      "label": "Run Production",
+      "type": "shell",
+      "command": "dotnet run --launch-profile Production"
+    }
+  ]
 }

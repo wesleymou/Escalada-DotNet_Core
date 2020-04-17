@@ -16,7 +16,7 @@ namespace Escalada.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                .HasAnnotation("ProductVersion", "3.1.2")
+                .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             modelBuilder.Entity("Escalada.Models.Agreement", b =>
@@ -161,12 +161,12 @@ namespace Escalada.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("CustomerId")
-                        .HasColumnName("customerid")
+                    b.Property<int?>("ClienteId")
+                        .HasColumnName("clienteid")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("EventId")
-                        .HasColumnName("eventid")
+                    b.Property<int?>("EventoId")
+                        .HasColumnName("eventoid")
                         .HasColumnType("integer");
 
                     b.Property<int>("QtdAdulto")
@@ -191,9 +191,9 @@ namespace Escalada.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("ClienteId");
 
-                    b.HasIndex("EventId");
+                    b.HasIndex("EventoId");
 
                     b.HasIndex("TipoPagamentoId");
 
@@ -208,9 +208,9 @@ namespace Escalada.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("Description")
+                    b.Property<string>("Description")
                         .HasColumnName("description")
-                        .HasColumnType("integer");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -234,27 +234,6 @@ namespace Escalada.Migrations
                     b.ToTable("providers");
                 });
 
-            modelBuilder.Entity("Escalada.Models.User", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id")
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("login")
-                        .HasColumnName("login")
-                        .HasColumnType("text");
-
-                    b.Property<string>("password")
-                        .HasColumnName("password")
-                        .HasColumnType("text");
-
-                    b.HasKey("id");
-
-                    b.ToTable("users");
-                });
-
             modelBuilder.Entity("Escalada.Models.Agreement", b =>
                 {
                     b.HasOne("Escalada.Models.Event", "Event")
@@ -275,13 +254,13 @@ namespace Escalada.Migrations
 
             modelBuilder.Entity("Escalada.Models.Inscription", b =>
                 {
-                    b.HasOne("Escalada.Models.Customer", null)
+                    b.HasOne("Escalada.Models.Customer", "Cliente")
                         .WithMany("Inscricoes")
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("ClienteId");
 
-                    b.HasOne("Escalada.Models.Event", null)
+                    b.HasOne("Escalada.Models.Event", "Evento")
                         .WithMany("Inscricoes")
-                        .HasForeignKey("EventId");
+                        .HasForeignKey("EventoId");
 
                     b.HasOne("Escalada.Models.PaymentType", "TipoPagamento")
                         .WithMany()

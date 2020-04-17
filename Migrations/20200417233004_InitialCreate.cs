@@ -45,7 +45,7 @@ namespace Escalada.Migrations
                 {
                     id = table.Column<int>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    description = table.Column<int>(nullable: false)
+                    description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -63,20 +63,6 @@ namespace Escalada.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_providers", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "users",
-                columns: table => new
-                {
-                    id = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    login = table.Column<string>(nullable: true),
-                    password = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_users", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -143,22 +129,22 @@ namespace Escalada.Migrations
                     qtdinfantil = table.Column<int>(nullable: false),
                     valortotal = table.Column<decimal>(nullable: false),
                     valorrecebido = table.Column<decimal>(nullable: false),
-                    tipopagamentoid = table.Column<int>(nullable: true),
-                    customerid = table.Column<int>(nullable: true),
-                    eventid = table.Column<int>(nullable: true)
+                    clienteid = table.Column<int>(nullable: true),
+                    eventoid = table.Column<int>(nullable: true),
+                    tipopagamentoid = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_inscription", x => x.id);
                     table.ForeignKey(
-                        name: "FK_inscription_customers_customerid",
-                        column: x => x.customerid,
+                        name: "FK_inscription_customers_clienteid",
+                        column: x => x.clienteid,
                         principalTable: "customers",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_inscription_events_eventid",
-                        column: x => x.eventid,
+                        name: "FK_inscription_events_eventoid",
+                        column: x => x.eventoid,
                         principalTable: "events",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
@@ -186,14 +172,14 @@ namespace Escalada.Migrations
                 column: "statusid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_inscription_customerid",
+                name: "IX_inscription_clienteid",
                 table: "inscription",
-                column: "customerid");
+                column: "clienteid");
 
             migrationBuilder.CreateIndex(
-                name: "IX_inscription_eventid",
+                name: "IX_inscription_eventoid",
                 table: "inscription",
-                column: "eventid");
+                column: "eventoid");
 
             migrationBuilder.CreateIndex(
                 name: "IX_inscription_tipopagamentoid",
@@ -208,9 +194,6 @@ namespace Escalada.Migrations
 
             migrationBuilder.DropTable(
                 name: "inscription");
-
-            migrationBuilder.DropTable(
-                name: "users");
 
             migrationBuilder.DropTable(
                 name: "providers");
