@@ -23,7 +23,7 @@ namespace Escalada
     // GET: Inscription
     public async Task<IActionResult> Index()
     {
-      return View(await _context.Inscription
+      return View(await _context.Inscriptions
         .Include(Inscription => Inscription.Cliente)
         .Include(Inscription => Inscription.Evento)
         .Include(Inscription => Inscription.TipoPagamento)
@@ -38,7 +38,7 @@ namespace Escalada
         return NotFound();
       }
 
-      var inscription = await _context.Inscription
+      var inscription = await _context.Inscriptions
         .Include(Inscription => Inscription.Cliente)
         .Include(Inscription => Inscription.Evento)
         .Include(Inscription => Inscription.TipoPagamento)
@@ -54,29 +54,7 @@ namespace Escalada
     // GET: Inscription/Create
     public IActionResult Create()
     {
-      InscriptionViewModel inscriptionViewModel = new InscriptionViewModel
-      {
-        Events = _context.Events.ToList().Select(Event =>
-      new SelectListItem
-      {
-        Value = Event.Id.ToString(),
-        Text = Event.Nome
-      }),
-        Customers = _context.Customers.ToList().Select(Customer =>
-      new SelectListItem
-      {
-        Value = Customer.Id.ToString(),
-        Text = Customer.Nome
-      }),
-        PaymentTypes = _context.PaymentTypes.ToList().Select(PaymentType =>
-      new SelectListItem
-      {
-        Value = PaymentType.Id.ToString(),
-        Text = PaymentType.Description
-      })
-      };
-
-      return View(inscriptionViewModel);
+      return View(new InscriptionViewModel().CreateViewModel(Context: _context));
     }
 
     // POST: Inscription/Create
@@ -84,16 +62,13 @@ namespace Escalada
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,QtdAdulto,QtdInfantil,ValorTotal,ValorRecebido,Evento,Cliente,TipoPagamento,EventId,CustomerId,PaymentTypeId")] InscriptionViewModel inscriptionViewModel)
+    public async Task<IActionResult> Create([Bind("Id,QtdInteira,QtdMeia,ValorTotal,ValorRecebido,Evento,Cliente,TipoPagamento,EventId,CustomerId,PaymentTypeId")] InscriptionViewModel inscriptionViewModel)
     {
-      Inscription inscription = inscriptionViewModel;
+      Inscription inscription = new Inscription();
       if (ModelState.IsValid)
       {
-        inscription.Cliente = _context.Customers.FirstOrDefault(c => c.Id == int.Parse(inscriptionViewModel.CustomerId ?? "1"));
-        inscription.Evento = _context.Events.FirstOrDefault(e => e.Id == int.Parse(inscriptionViewModel.EventId ?? "1"));
-        inscription.TipoPagamento = _context.PaymentTypes.FirstOrDefault(p => p.Id == int.Parse(inscriptionViewModel.PaymentTypeId ?? "1"));
-
-        _context.Inscription.Add(inscription);
+        inscription = inscriptionViewModel.CreateModel(Context: _context);
+        _context.Inscriptions.Add(inscription);
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
       }
@@ -108,42 +83,18 @@ namespace Escalada
         return NotFound();
       }
 
-      var inscription = await _context.Inscription.FindAsync(id);
-      InscriptionViewModel inscriptionViewModel = new InscriptionViewModel
-      {
-        Id = inscription.Id,
-        QtdAdulto = inscription.QtdAdulto,
-        QtdInfantil = inscription.QtdInfantil,
-        ValorTotal = inscription.ValorTotal,
-        ValorRecebido = inscription.ValorRecebido,
-        Cliente = inscription.Cliente,
-        Evento = inscription.Evento,
-        TipoPagamento = inscription.TipoPagamento,
-        Events = _context.Events.ToList().Select(Event =>
-          new SelectListItem
-          {
-            Value = Event.Id.ToString(),
-            Text = Event.Nome
-          }),
-        Customers = _context.Customers.ToList().Select(Customer =>
-        new SelectListItem
-        {
-          Value = Customer.Id.ToString(),
-          Text = Customer.Nome
-        }),
-        PaymentTypes = _context.PaymentTypes.ToList().Select(PaymentType =>
-        new SelectListItem
-        {
-          Value = PaymentType.Id.ToString(),
-          Text = PaymentType.Description
-        })
-      };
+      var inscription = await _context.Inscriptions
+        .Include(Inscription => Inscription.Cliente)
+        .Include(Inscription => Inscription.Evento)
+        .Include(Inscription => Inscription.TipoPagamento)
+        .FirstAsync(m => id == m.Id);
 
-      if (inscriptionViewModel == null)
+      if (inscription == null)
       {
         return NotFound();
       }
-      return View(inscriptionViewModel);
+
+      return View(new InscriptionViewModel().CreateViewModel(Context: _context, Inscription: inscription));
     }
 
     // POST: Inscription/Edit/5
@@ -151,26 +102,23 @@ namespace Escalada
     // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,QtdAdulto,QtdInfantil,ValorTotal,ValorRecebido,Evento,Cliente,TipoPagamento,EventId,CustomerId,PaymentTypeId")] InscriptionViewModel inscription)
+    public async Task<IActionResult> Edit(int id, [Bind("Id,QtdInteira,QtdMeia,ValorTotal,ValorRecebido,Evento,Cliente,TipoPagamento,EventId,CustomerId,PaymentTypeId")] InscriptionViewModel inscriptionViewModel)
     {
-      if (id != inscription.Id)
+      if (id != inscriptionViewModel.Id)
       {
         return NotFound();
       }
 
       if (ModelState.IsValid)
       {
-        inscription.Cliente = _context.Customers.FirstOrDefault(c => c.Id == int.Parse(inscription.CustomerId ?? "1"));
-        inscription.Evento = _context.Events.FirstOrDefault(e => e.Id == int.Parse(inscription.EventId ?? "1"));
-        inscription.TipoPagamento = _context.PaymentTypes.FirstOrDefault(p => p.Id == int.Parse(inscription.PaymentTypeId ?? "1"));
         try
         {
-          _context.Update(inscription);
+          _context.Update(inscriptionViewModel.CreateModel(Context: _context));
           await _context.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
-          if (!InscriptionExists(inscription.Id))
+          if (!InscriptionExists(inscriptionViewModel.Id))
           {
             return NotFound();
           }
@@ -181,7 +129,7 @@ namespace Escalada
         }
         return RedirectToAction(nameof(Index));
       }
-      return View(inscription);
+      return View(inscriptionViewModel);
     }
 
     // GET: Inscription/Delete/5
@@ -192,7 +140,7 @@ namespace Escalada
         return NotFound();
       }
 
-      var inscription = await _context.Inscription
+      var inscription = await _context.Inscriptions
         .Include(Inscription => Inscription.Cliente)
         .Include(Inscription => Inscription.Evento)
         .Include(Inscription => Inscription.TipoPagamento)
@@ -210,15 +158,15 @@ namespace Escalada
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-      var inscription = await _context.Inscription.FindAsync(id);
-      _context.Inscription.Remove(inscription);
+      var inscription = await _context.Inscriptions.FindAsync(id);
+      _context.Inscriptions.Remove(inscription);
       await _context.SaveChangesAsync();
       return RedirectToAction(nameof(Index));
     }
 
     private bool InscriptionExists(int id)
     {
-      return _context.Inscription.Any(e => e.Id == id);
+      return _context.Inscriptions.Any(e => e.Id == id);
     }
   }
 }

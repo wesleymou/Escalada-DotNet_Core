@@ -46,10 +46,10 @@
                     @Html.DisplayFor(modelItem => item.Evento.Nome)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.QtdAdulto)
+                    @Html.DisplayFor(modelItem => item.QtdInteira)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.QtdInfantil)
+                    @Html.DisplayFor(modelItem => item.QtdMeia)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ValorTotal)
@@ -58,7 +58,7 @@
                     @Html.DisplayFor(modelItem => item.ValorRecebido)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TipoPagamento.Description)
+                    @Html.DisplayFor(modelItem => item.TipoPagamento.Name)
                 </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

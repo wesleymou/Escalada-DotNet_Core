@@ -23,16 +23,16 @@ ViewData["Title"] = "Details";
             @Html.DisplayFor(model => model.Cliente.Nome)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.QtdAdulto)
+            @Html.DisplayNameFor(model => model.QtdInteira)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.QtdAdulto)
+            @Html.DisplayFor(model => model.QtdInteira)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.QtdInfantil)
+            @Html.DisplayNameFor(model => model.QtdMeia)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.QtdInfantil)
+            @Html.DisplayFor(model => model.QtdMeia)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.ValorTotal)
@@ -50,7 +50,7 @@ ViewData["Title"] = "Details";
             Pagamento
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TipoPagamento.Description)
+            @Html.DisplayFor(model => model.TipoPagamento.Name)
         </dd>
     </dl>
 </div>

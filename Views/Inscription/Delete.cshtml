@@ -24,25 +24,25 @@ ViewData["Title"] = "Delete";
             @Html.DisplayFor(model => model.Cliente.Nome)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.QtdAdulto)
+            Inteira
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.QtdAdulto)
+            @Html.DisplayFor(model => model.QtdInteira)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.QtdInfantil)
+            Meia
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.QtdInfantil)
+            @Html.DisplayFor(model => model.QtdMeia)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ValorTotal)
+            Total
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ValorTotal)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ValorRecebido)
+            Recebido
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ValorRecebido)
@@ -51,7 +51,7 @@ ViewData["Title"] = "Delete";
             Pagamento
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TipoPagamento.Description)
+            @Html.DisplayFor(model => model.TipoPagamento.Name)
         </dd>
     </dl>
 

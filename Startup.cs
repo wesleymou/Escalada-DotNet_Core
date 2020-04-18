@@ -41,12 +41,7 @@ namespace Escalada
       //   .AddDefaultTokenProviders();
 
       services.AddControllersWithViews()
-                .AddRazorRuntimeCompilation();
-
-      services.AddAutoMapper(typeof(Startup), cfg =>
-      {
-        cfg.AddDataReaderMapping();
-      });
+        .AddRazorRuntimeCompilation();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

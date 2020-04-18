@@ -24,14 +24,9 @@
       "command": "echo -n \"Migration name: \"; read Name; dotnet ef migrations add $Name -c IdentityContext"
     },
     {
-      "label": "Migrations Escalada List",
+      "label": "Migrations List",
       "type": "shell",
-      "command": "dotnet ef migrations list -c EscaladaContext"
-    },
-    {
-      "label": "Migrations Identity List",
-      "type": "shell",
-      "command": "dotnet ef migrations list -c IdentityContext"
+      "command": "dotnet ef migrations list -c EscaladaContext --no-build;echo \"\n\"; dotnet ef migrations list -c IdentityContext --no-build"
     },
     {
       "label": "Migrations Remove",
