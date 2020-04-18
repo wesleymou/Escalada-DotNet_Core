@@ -1,12 +1,12 @@
 @model Escalada.Models.Customer
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar Cliente";
 }
 
-<h1>Edit</h1>
+<h1>Cliente</h1>
+<h4>Editar</h4>
 
-<h4>Customer</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,7 +15,7 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Cpf" class="control-label"></label>
-                <input asp-for="Cpf" class="form-control" />
+                <input asp-for="Cpf" class="form-control cpf" />
                 <span asp-validation-for="Cpf" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -25,12 +25,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="NumFone1" class="control-label"></label>
-                <input asp-for="NumFone1" class="form-control" />
+                <input asp-for="NumFone1" class="form-control phone" />
                 <span asp-validation-for="NumFone1" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="NumFone2" class="control-label"></label>
-                <input asp-for="NumFone2" class="form-control" />
+                <input asp-for="NumFone2" class="form-control phone" />
                 <span asp-validation-for="NumFone2" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -44,14 +44,14 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Salvar" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Retornar à lista</a>
 </div>
 
 @section Scripts {

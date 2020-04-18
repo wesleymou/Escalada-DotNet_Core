@@ -1,12 +1,11 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Escalada.Models;
 using Escalada.Service;
+using Escalada.Models.ViewModels;
+using System;
 
 namespace Escalada.Controllers
 {
@@ -20,9 +19,18 @@ namespace Escalada.Controllers
         }
 
         // GET: Customer
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool excluidos)
         {
-            return View(await _context.Customers.ToListAsync());
+            var customers = await _context.Customers
+                .Where(e => excluidos || !e.Excluido).ToListAsync();
+
+            var model = new CustomerListViewModel
+            {
+                Customers = customers,
+                ShowDeleted = excluidos
+            };
+
+            return View(model);
         }
 
         // GET: Customer/Details/5
@@ -140,7 +148,7 @@ namespace Escalada.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var customer = await _context.Customers.FindAsync(id);
-            _context.Customers.Remove(customer);
+            customer.Excluido = true;
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

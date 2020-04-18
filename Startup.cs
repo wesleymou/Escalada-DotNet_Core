@@ -1,12 +1,13 @@
 using Escalada.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Escalada.Models;
-
+using AutoMapper;
 
 namespace Escalada
 {
@@ -29,8 +30,6 @@ namespace Escalada
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddControllersWithViews();
-
       services.AddDbContext<EscaladaContext>(options =>
         options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -41,8 +40,13 @@ namespace Escalada
       //   .AddEntityFrameworkStores<IdentityContext>()
       //   .AddDefaultTokenProviders();
 
-      services.AddRazorPages()
-      .AddRazorRuntimeCompilation();
+      services.AddControllersWithViews()
+                .AddRazorRuntimeCompilation();
+
+      services.AddAutoMapper(typeof(Startup), cfg =>
+      {
+        cfg.AddDataReaderMapping();
+      });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

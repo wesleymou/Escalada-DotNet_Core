@@ -15,17 +15,17 @@ namespace Escalada.Service
       {
         context.PaymentTypes.Add(new PaymentType
         {
-          Description = "Dinheiro"
+          Name = "Dinheiro"
         });
 
         context.PaymentTypes.Add(new PaymentType
         {
-          Description = "Débito"
+          Name = "Débito"
         });
 
         context.PaymentTypes.Add(new PaymentType
         {
-          Description = "Crédito"
+          Name = "Crédito"
         });
       }
 
@@ -33,12 +33,12 @@ namespace Escalada.Service
       {
         context.EventStatus.Add(new EventStatus
         {
-          Nome = "Em espera"
+          Name = "Em espera"
         });
 
         context.EventStatus.Add(new EventStatus
         {
-          Nome = "Pronto"
+          Name = "Pronto"
         });
       }
 

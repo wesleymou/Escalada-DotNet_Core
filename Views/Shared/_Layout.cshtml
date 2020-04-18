@@ -19,7 +19,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - Escalada - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; @DateTime.Now.Year - Escalada
         </div>
         @await Html.PartialAsync("_Script")
         @await Html.PartialAsync("_PartialScript")

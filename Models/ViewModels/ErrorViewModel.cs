@@ -1,6 +1,6 @@
 using System;
 
-namespace Escalada.Models
+namespace Escalada.Models.ViewModels
 {
     public class ErrorViewModel
     {
