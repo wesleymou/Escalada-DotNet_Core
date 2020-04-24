@@ -53,7 +53,7 @@ namespace Escalada.Controllers
         // GET: Event/Create
         public IActionResult Create()
         {
-            return View(new EventViewModel().CreateViewModel(Context: _context));
+            return View(EventViewModelFactory.CreateViewModel(Context: _context));
         }
 
         // POST: Event/Create
@@ -66,7 +66,7 @@ namespace Escalada.Controllers
             Event @event = new Event();
             if (ModelState.IsValid)
             {
-                @event = eventViewModel.CreateModel(Context: _context);
+                @event = EventViewModelFactory.CreateModel(Context: _context, eventViewModel);
                 _context.Add(@event);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -90,8 +90,7 @@ namespace Escalada.Controllers
             {
                 return NotFound();
             }
-            var t = new EventViewModel().CreateViewModel(Context: _context, Event: @event);
-            return View(t);
+            return View(EventViewModelFactory.CreateViewModel(Context: _context, Event: @event));
         }
 
         // POST: Event/Edit/5
@@ -111,7 +110,7 @@ namespace Escalada.Controllers
             {
                 try
                 {
-                    @event = eventViewModel.CreateModel(Context: _context);
+                    @event = EventViewModelFactory.CreateModel(Context: _context, eventViewModel);
                     _context.Update(@event);
                     await _context.SaveChangesAsync();
                 }
