@@ -10,7 +10,7 @@
 *.code-workspace
 
 # Statics libs. Must downloaded with Libman Tool.
-# wwwroot/lib/
+wwwroot/lib/
 
 # User-specific files
 *.rsuser
