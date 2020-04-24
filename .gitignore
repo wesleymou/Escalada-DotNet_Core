@@ -9,6 +9,9 @@
 # Visual Studio Code Workspace
 *.code-workspace
 
+# Statics libs. Must downloaded with Libman Tool.
+# wwwroot/lib/
+
 # User-specific files
 *.rsuser
 *.suo
