@@ -1,12 +1,11 @@
 @model Escalada.Models.Customer
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Cadastrar Cliente";
 }
 
-<h1>Create</h1>
-
-<h4>Customer</h4>
+<h1>Cliente</h1>
+<h4>Cadastrar</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -14,7 +13,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Cpf" class="control-label"></label>
-                <input asp-for="Cpf" class="form-control" />
+                <input asp-for="Cpf" class="form-control cpf"/>
                 <span asp-validation-for="Cpf" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -24,12 +23,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="NumFone1" class="control-label"></label>
-                <input asp-for="NumFone1" class="form-control" />
+                <input asp-for="NumFone1" class="form-control phone"/>
                 <span asp-validation-for="NumFone1" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="NumFone2" class="control-label"></label>
-                <input asp-for="NumFone2" class="form-control" />
+                <input asp-for="NumFone2" class="form-control phone" />
                 <span asp-validation-for="NumFone2" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -50,9 +49,5 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Retornar à lista</a>
 </div>
-@* 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-} *@

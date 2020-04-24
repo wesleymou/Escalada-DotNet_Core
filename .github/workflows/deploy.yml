@@ -1,28 +1,31 @@
 name: Heroku deploy container
 
-on: [push]
+on:
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@master
-      
-    - name: GitHub Action for Heroku
-      uses: actions/heroku@master
-      
-    - name: Login on Heroku
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:login
+      - uses: actions/checkout@master
 
-    - name: Build and push
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:push web -a=escalada-webserver
+      - name: GitHub Action for Heroku
+        uses: actions/heroku@master
 
-    - name: Release app
-      env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      run: heroku container:release web -a=escalada-webserver
+      - name: Login on Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:login
+
+      - name: Build and push
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:push web -a=escalada-webserver
+
+      - name: Release app
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:release web -a=escalada-webserver

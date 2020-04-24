@@ -1,0 +1,51 @@
+@model IEnumerable<Customer>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameForInnerType((Customer item) => item.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameForInnerType((Customer item) => item.NumFone1)
+            </th>
+            <th>
+                @Html.DisplayNameForInnerType((Customer item) => item.NumFone2)
+            </th>
+            <th>
+                @Html.DisplayNameForInnerType((Customer item) => item.Email)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @if(item.Excluido)
+                {
+                    <span class="badge badge-danger">Excluído</span>
+                }
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumFone1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumFone2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a>
+                @if(!item.Excluido)
+                {
+                    <span> | <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> | </span>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
