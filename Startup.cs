@@ -63,7 +63,9 @@ namespace Escalada
 
             services.ConfigureApplicationCookie(o => o.LoginPath = "/Account/Login");
 
-            services.AddControllersWithViews()
+            services.AddControllersWithViews();
+
+            services.AddRazorPages()
               .AddRazorRuntimeCompilation();
 
             services.AddAutoMapper(typeof(AutoMapperProfile));
