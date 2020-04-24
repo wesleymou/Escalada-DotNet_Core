@@ -1,12 +1,13 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Escalada</title>
     @await Html.PartialAsync("_Head")
-    @await Html.PartialAsync("_PartialStyle")
 </head>
+
 <body>
     <header>
         @await Html.PartialAsync("_NavBar")
@@ -22,9 +23,9 @@
             &copy; @DateTime.Now.Year - Escalada
         </div>
         @await Html.PartialAsync("_Script")
-        @await Html.PartialAsync("_PartialScript")
     </footer>
-    
     @RenderSection("Scripts", required: false)
+
 </body>
+
 </html>

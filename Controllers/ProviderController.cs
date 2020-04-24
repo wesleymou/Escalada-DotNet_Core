@@ -10,6 +10,7 @@ using Escalada.Service;
 
 namespace Escalada.Controllers
 {
+  [Microsoft.AspNetCore.Authorization.Authorize]
   public class ProviderController : Controller
   {
     private readonly EscaladaContext _context;
