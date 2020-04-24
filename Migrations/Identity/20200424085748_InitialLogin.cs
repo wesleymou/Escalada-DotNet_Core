@@ -40,10 +40,7 @@ namespace Escalada.Migrations.Identity
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    id = table.Column<int>(nullable: false),
-                    login = table.Column<string>(nullable: true),
-                    password = table.Column<string>(nullable: true)
+                    AccessFailedCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -96,8 +93,8 @@ namespace Escalada.Migrations.Identity
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(nullable: false),
-                    ProviderKey = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -141,8 +138,8 @@ namespace Escalada.Migrations.Identity
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
+                    Name = table.Column<string>(maxLength: 128, nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -155,6 +152,11 @@ namespace Escalada.Migrations.Identity
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "36dc73cb-5cdd-44ed-ad20-ad1d1d222fa5", 0, "a28863a8-abc2-4136-8501-d006d534536a", "admin@email.com", false, true, null, "ADMIN@EMAIL.COM", "ADMINISTRATOR", "AQAAAAEAACcQAAAAEAdCtP6Rzb3My26JN4o5MKxExb8Du3j/C1BOuyL4bJtZRV/t4o8Jda58A1l3opNMvw==", null, false, "a9527faa-b495-402c-a28f-2e6eab589975", false, "Administrator" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

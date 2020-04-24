@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Escalada
 {
+  [Microsoft.AspNetCore.Authorization.Authorize]
   public class InscriptionController : Controller
   {
     private readonly EscaladaContext _context;

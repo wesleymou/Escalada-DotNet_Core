@@ -29,19 +29,19 @@
       "command": "dotnet ef migrations list -c EscaladaContext --no-build;echo \"\n\"; dotnet ef migrations list -c IdentityContext --no-build"
     },
     {
-      "label": "Migrations Remove",
+      "label": "Migrations Escalada Remove",
       "type": "shell",
-      "command": "dotnet ef migrations remove"
+      "command": "dotnet ef migrations remove -c EscaladaContext"
     },
     {
-      "label": "Database Escalada update ",
+      "label": "Migrations Identity Remove ",
       "type": "shell",
-      "command": "dotnet ef database update -c EscaladaContext"
+      "command": "dotnet ef migrations remove -c IdentityContext"
     },
     {
-      "label": "Database Identity update ",
+      "label": "Database update ",
       "type": "shell",
-      "command": "dotnet ef database update -c IdentityContext"
+      "command": "dotnet ef database update -c EscaladaContext; dotnet ef database update -c IdentityContext"
     },
     {
       "label": "Watch",
@@ -49,7 +49,7 @@
       "command": "dotnet watch run"
     },
     {
-      "label": "watch Production",
+      "label": "Watch Production",
       "type": "shell",
       "command": "dotnet watch run --launch-profile Production"
     },

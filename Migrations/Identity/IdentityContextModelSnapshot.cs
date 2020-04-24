@@ -71,15 +71,6 @@ namespace Escalada.Migrations.Identity
                         .HasColumnType("character varying(256)")
                         .HasMaxLength(256);
 
-                    b.Property<int>("id")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("login")
-                        .HasColumnType("text");
-
-                    b.Property<string>("password")
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -90,6 +81,24 @@ namespace Escalada.Migrations.Identity
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "36dc73cb-5cdd-44ed-ad20-ad1d1d222fa5",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "a28863a8-abc2-4136-8501-d006d534536a",
+                            Email = "admin@email.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = true,
+                            NormalizedEmail = "ADMIN@EMAIL.COM",
+                            NormalizedUserName = "ADMINISTRATOR",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAdCtP6Rzb3My26JN4o5MKxExb8Du3j/C1BOuyL4bJtZRV/t4o8Jda58A1l3opNMvw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "a9527faa-b495-402c-a28f-2e6eab589975",
+                            TwoFactorEnabled = false,
+                            UserName = "Administrator"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -169,10 +178,12 @@ namespace Escalada.Migrations.Identity
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("text");
+                        .HasColumnType("character varying(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("text");
+                        .HasColumnType("character varying(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("text");
@@ -209,10 +220,12 @@ namespace Escalada.Migrations.Identity
                         .HasColumnType("text");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("text");
+                        .HasColumnType("character varying(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .HasColumnType("character varying(128)")
+                        .HasMaxLength(128);
 
                     b.Property<string>("Value")
                         .HasColumnType("text");
