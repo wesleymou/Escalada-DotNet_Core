@@ -40,7 +40,12 @@ namespace Escalada.Controllers
                 return NotFound();
             }
 
-            return View(@event);
+            var model = new EventDetailsViewModel
+            {
+                Evento = @event
+            };
+
+            return View(model);
         }
 
         // GET: Event/Create

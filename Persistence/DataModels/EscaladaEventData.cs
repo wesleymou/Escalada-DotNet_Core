@@ -21,6 +21,7 @@ namespace Escalada.Persistence.DataModels
             return await _context.Events
                 .Include(e => e.Status)
                 .Include(e => e.Inscricoes)
+                    .ThenInclude(i => i.Cliente)
                 .FirstOrDefaultAsync(m => m.Id == id);
         }
 
