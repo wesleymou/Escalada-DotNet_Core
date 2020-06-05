@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Escalada.Models;
+using Escalada.Models.DataModels;
+using Escalada.Models.Services;
 using Escalada.Models.ViewModels;
 using Escalada.Persistence;
 
@@ -11,23 +13,22 @@ namespace Escalada.Controllers
   [Microsoft.AspNetCore.Authorization.Authorize]
   public class CustomerController : Controller
   {
-    private readonly EscaladaContext _context;
+    private readonly CustomerService _customerService;
 
-    public CustomerController(EscaladaContext context)
+    public CustomerController(ICustomerData customerData)
     {
-      _context = context;
+      _customerService = new CustomerService(customerData);
     }
 
     // GET: Customer
-    public async Task<IActionResult> Index(bool excluidos)
+    public async Task<IActionResult> Index()
     {
-      var customers = await _context.Customers
-          .Where(e => excluidos || !e.Excluido).ToListAsync();
+      var customers = (await _customerService.Listar()).ToList();
 
       var model = new CustomerListViewModel
       {
         Customers = customers,
-        ShowDeleted = excluidos
+        ShowDeleted = false
       };
 
       return View(model);
@@ -41,8 +42,8 @@ namespace Escalada.Controllers
         return NotFound();
       }
 
-      var customer = await _context.Customers
-          .FirstOrDefaultAsync(m => m.Id == id);
+      var customer = await _customerService.BuscarPorId(id.Value);
+
       if (customer == null)
       {
         return NotFound();
@@ -66,8 +67,7 @@ namespace Escalada.Controllers
     {
       if (ModelState.IsValid)
       {
-        _context.Add(customer);
-        await _context.SaveChangesAsync();
+        await _customerService.Cadastrar(customer);
         return RedirectToAction(nameof(Index));
       }
       return View(customer);
@@ -81,7 +81,7 @@ namespace Escalada.Controllers
         return NotFound();
       }
 
-      var customer = await _context.Customers.FindAsync(id);
+      var customer = await _customerService.BuscarPorId(id.Value);
       if (customer == null)
       {
         return NotFound();
@@ -103,22 +103,7 @@ namespace Escalada.Controllers
 
       if (ModelState.IsValid)
       {
-        try
-        {
-          _context.Update(customer);
-          await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-          if (!CustomerExists(customer.Id))
-          {
-            return NotFound();
-          }
-          else
-          {
-            throw;
-          }
-        }
+        await _customerService.Atualizar(customer);
         return RedirectToAction(nameof(Index));
       }
       return View(customer);
@@ -132,8 +117,7 @@ namespace Escalada.Controllers
         return NotFound();
       }
 
-      var customer = await _context.Customers
-          .FirstOrDefaultAsync(m => m.Id == id);
+      var customer = await _customerService.BuscarPorId(id.Value);
       if (customer == null)
       {
         return NotFound();
@@ -147,15 +131,8 @@ namespace Escalada.Controllers
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-      var customer = await _context.Customers.FindAsync(id);
-      customer.Excluido = true;
-      await _context.SaveChangesAsync();
+      await _customerService.Remover(id);
       return RedirectToAction(nameof(Index));
-    }
-
-    private bool CustomerExists(int id)
-    {
-      return _context.Customers.Any(e => e.Id == id);
     }
   }
 }
