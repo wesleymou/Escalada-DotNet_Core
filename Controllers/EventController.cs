@@ -1,11 +1,11 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Escalada.Models;
-using Escalada.Service;
 using Escalada.Models.ViewModels;
-using AutoMapper;
+using Escalada.Persistence;
 
 namespace Escalada.Controllers
 {
@@ -40,6 +40,7 @@ namespace Escalada.Controllers
 
             var @event = await _context.Events
                 .Include(e => e.Status)
+                .Include(e => e.Inscricoes)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (@event == null)
@@ -51,9 +52,11 @@ namespace Escalada.Controllers
         }
 
         // GET: Event/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View(EventViewModelFactory.CreateViewModel(Context: _context));
+            List<EventStatus> statuses = await GetEventStatuses();
+            EventEditViewModel model = EventViewModelFactory.CreateEditViewModel(null, statuses);
+            return View(model);
         }
 
         // POST: Event/Create
@@ -61,17 +64,26 @@ namespace Escalada.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,DataInicio,DataTermino,Local,Capacidade,Quorum,OrcamentoPrevio,ValorIngresso,Cronograma,StatusId")] EventViewModel eventViewModel)
+        public async Task<IActionResult> Create(
+            [Bind(
+                "Nome,DataInicio,DataTermino,Local,Capacidade,Quorum,OrcamentoPrevio,ValorIngresso,Cronograma,StatusId")]
+            EventEditViewModel form)
         {
-            Event @event = new Event();
+            var @event = (Event) form;
+
+            @event.Status = await _context.EventStatus.FindAsync(form.StatusId);
+
             if (ModelState.IsValid)
             {
-                @event = EventViewModelFactory.CreateModel(Context: _context, eventViewModel);
                 _context.Add(@event);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(@event);
+
+            List<EventStatus> statuses = await GetEventStatuses();
+            EventEditViewModel model = EventViewModelFactory.CreateEditViewModel(@event, statuses);
+
+            return View(model);
         }
 
         // GET: Event/Edit/5
@@ -90,7 +102,11 @@ namespace Escalada.Controllers
             {
                 return NotFound();
             }
-            return View(EventViewModelFactory.CreateViewModel(Context: _context, Event: @event));
+
+            List<EventStatus> statuses = await GetEventStatuses();
+            EventEditViewModel model = EventViewModelFactory.CreateEditViewModel(@event, statuses);
+
+            return View(model);
         }
 
         // POST: Event/Edit/5
@@ -98,25 +114,30 @@ namespace Escalada.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DataInicio,DataTermino,Local,Capacidade,Quorum,OrcamentoPrevio,ValorIngresso,Cronograma,StatusId")] EventViewModel eventViewModel)
+        public async Task<IActionResult> Edit(int id,
+            [Bind(
+                "Id,Nome,DataInicio,DataTermino,Local,Capacidade,Quorum,OrcamentoPrevio,ValorIngresso,Cronograma,StatusId")]
+            EventEditViewModel form)
         {
-            if (id != eventViewModel.Id)
+            var @event = (Event) form;
+
+            if (id != form.Id)
             {
                 return NotFound();
             }
 
-            Event @event = new Event();
+            @event.Status = await _context.EventStatus.FindAsync(form.StatusId);
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    @event = EventViewModelFactory.CreateModel(Context: _context, eventViewModel);
                     _context.Update(@event);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EventExists(eventViewModel.Id))
+                    if (!EventExists(@event.Id))
                     {
                         return NotFound();
                     }
@@ -125,9 +146,14 @@ namespace Escalada.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(@event);
+
+            List<EventStatus> statuses = await GetEventStatuses();
+            EventEditViewModel model = EventViewModelFactory.CreateEditViewModel(@event, statuses);
+
+            return View(model);
         }
 
         // GET: Event/Delete/5
@@ -141,6 +167,7 @@ namespace Escalada.Controllers
             var @event = await _context.Events
                 .Include(e => e.Status)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (@event == null)
             {
                 return NotFound();
@@ -155,7 +182,7 @@ namespace Escalada.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var @event = await _context.Events
-              .FindAsync(id);
+                .FindAsync(id);
 
             @event.Excluido = true;
 
@@ -167,5 +194,7 @@ namespace Escalada.Controllers
         {
             return _context.Events.Any(e => e.Id == id);
         }
+
+        private async Task<List<EventStatus>> GetEventStatuses() => await _context.EventStatus.ToListAsync();
     }
 }

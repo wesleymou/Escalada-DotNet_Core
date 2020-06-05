@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Escalada.Models;
-using Escalada.Service;
 using Escalada.Models.ViewModels;
+using Escalada.Persistence;
 
 namespace Escalada.Controllers
 {

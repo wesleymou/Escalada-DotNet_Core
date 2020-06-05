@@ -1,4 +1,4 @@
-@model Escalada.Models.ViewModels.InscriptionViewModel
+@model Escalada.Models.ViewModels.InscriptionEditViewModel
 
 @{
 ViewData["Title"] = "Edit";
@@ -15,13 +15,13 @@ ViewData["Title"] = "Edit";
             <input type="hidden" asp-for="Id" />
 
             <div class="form-group">
-                <label asp-for="EventId" class="control-label"></label>
-                <select asp-for="EventId" asp-items="Model.Events" class="form-control"></select>
+                <label asp-for="Evento" class="control-label"></label>
+                <select asp-for="EventId" asp-items="Model.EventListItems" class="form-control"></select>
                 <span asp-validation-for="EventId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CustomerId" class="control-label"></label>
-                <select asp-for="CustomerId" asp-items="Model.Customers" class="form-control"></select>
+                <label asp-for="Cliente" class="control-label"></label>
+                <select asp-for="CustomerId" asp-items="Model.CustomerListItems" class="form-control"></select>
                 <span asp-validation-for="CustomerId" class="text-danger"></span>
             </div>
 
@@ -46,8 +46,8 @@ ViewData["Title"] = "Edit";
                 <span asp-validation-for="ValorRecebido" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PaymentTypeId" class="control-label"></label>
-                <select asp-for="PaymentTypeId" asp-items="Model.PaymentTypes" class="form-control">
+                <label asp-for="TipoPagamento" class="control-label"></label>
+                <select asp-for="PaymentTypeId" asp-items="Model.PaymentTypeListItems" class="form-control">
                     <option disabled selected hidden value=@Model.TipoPagamento.Id>@Model.TipoPagamento.Name</option>
                 </select>
                 <span asp-validation-for="PaymentTypeId" class="text-danger"></span>
