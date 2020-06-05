@@ -35,6 +35,7 @@ namespace Escalada
               options.UseNpgsql(Configuration.GetConnectionString("IdentityConnection")));
             
             services.AddEscaladaDbServices(Configuration);
+
             services.AddDefaultIdentity<User>(options =>
                 {
                     options.SignIn.RequireConfirmedAccount = true;

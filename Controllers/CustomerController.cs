@@ -1,12 +1,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Escalada.Models;
-using Escalada.Models.DataModels;
 using Escalada.Models.Services;
 using Escalada.Models.ViewModels;
-using Escalada.Persistence;
 
 namespace Escalada.Controllers
 {
@@ -15,11 +12,11 @@ namespace Escalada.Controllers
   {
     private readonly CustomerService _customerService;
 
-    public CustomerController(ICustomerData customerData)
+    public CustomerController(CustomerService customerService)
     {
-      _customerService = new CustomerService(customerData);
+      _customerService = customerService;
     }
-
+    
     // GET: Customer
     public async Task<IActionResult> Index()
     {

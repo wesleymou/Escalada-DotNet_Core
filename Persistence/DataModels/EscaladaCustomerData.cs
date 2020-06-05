@@ -28,11 +28,11 @@ namespace Escalada.Persistence.DataModels
             return customers;
         }
 
-        public async Task<Customer> Cadastrar(Customer customer)
+        public async Task<Customer> Cadastrar(Customer evento)
         {
-            _context.Add(customer);
+            _context.Add(evento);
             await _context.SaveChangesAsync();
-            return customer;
+            return evento;
         }
 
         public async Task Atualizar(Customer customer)

@@ -31,5 +31,9 @@ namespace Escalada.Models
     
     [Display(Name = "Meio de Pagamento")]
     public PaymentType TipoPagamento { get; set; }
+
+    public int? TipoPagamentoId { get; set; }
+    public int? EventoId { get; set; }
+    public int? ClienteId { get; set; }
   }
 }

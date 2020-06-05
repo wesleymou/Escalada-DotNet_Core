@@ -1,4 +1,5 @@
 using Escalada.Models.DataModels;
+using Escalada.Models.Services;
 using Escalada.Persistence.DataModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,12 @@ namespace Escalada.Persistence
                 options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<ICustomerData, EscaladaCustomerData>();
+            services.AddScoped<IEventData, EscaladaEventData>();
+            services.AddScoped<IInscriptionData, EscaladaInscriptionData>();
+
+            services.AddScoped<InscriptionService>();
+            services.AddScoped<CustomerService>();
+            services.AddScoped<EventService>();
         }
     }
 }

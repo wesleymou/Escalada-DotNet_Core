@@ -1,32 +1,33 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Escalada.Models;
+using Escalada.Models.Services;
 using Escalada.Models.ViewModels;
-using Escalada.Persistence;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Escalada.Controllers
 {
     [Microsoft.AspNetCore.Authorization.Authorize]
     public class InscriptionController : Controller
     {
-        private readonly EscaladaContext _context;
+        private readonly InscriptionService _inscriptionService;
+        private readonly EventService _eventService;
+        private readonly CustomerService _customerService;
 
-        public InscriptionController(EscaladaContext context)
+        public InscriptionController(
+            CustomerService customerService,
+            EventService eventService,
+            InscriptionService inscriptionService)
         {
-            _context = context;
+            _customerService = customerService;
+            _eventService = eventService;
+            _inscriptionService = inscriptionService;
         }
 
         // GET: Inscription
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Inscriptions
-                .Include(i => i.Cliente)
-                .Include(i => i.Evento)
-                .Include(i => i.TipoPagamento)
-                .ToListAsync());
+            return View(await _inscriptionService.Listar());
         }
 
         // GET: Inscription/Details/5
@@ -37,11 +38,7 @@ namespace Escalada.Controllers
                 return NotFound();
             }
 
-            var inscription = await _context.Inscriptions
-                .Include(i => i.Cliente)
-                .Include(i => i.Evento)
-                .Include(i => i.TipoPagamento)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var inscription = await _inscriptionService.BuscarPorId(id.Value);
 
             if (inscription == null)
             {
@@ -64,20 +61,11 @@ namespace Escalada.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-            [Bind(
-                "Id,QtdInteira,QtdMeia,ValorTotal,ValorRecebido,Evento,Cliente,TipoPagamento,EventId,CustomerId,PaymentTypeId")]
-            InscriptionEditViewModel form)
+            [Bind("QtdInteira,QtdMeia,ValorTotal,ValorRecebido,EventoId,ClienteId,TipoPagamentoId")] Inscription inscription)
         {
-            var inscription = (Inscription) form;
-
-            inscription.Cliente = await _context.Customers.FindAsync(form.CustomerId);
-            inscription.Evento = await _context.Events.FindAsync(form.EventId);
-            inscription.TipoPagamento = await _context.PaymentTypes.FindAsync(form.PaymentTypeId);
-
             if (ModelState.IsValid)
             {
-                _context.Add(inscription);
-                await _context.SaveChangesAsync();
+                await _inscriptionService.Cadastrar(inscription);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -93,11 +81,7 @@ namespace Escalada.Controllers
                 return NotFound();
             }
 
-            var inscription = await _context.Inscriptions
-                .Include(Inscription => Inscription.Cliente)
-                .Include(Inscription => Inscription.Evento)
-                .Include(Inscription => Inscription.TipoPagamento)
-                .FirstAsync(m => id == m.Id);
+            var inscription = await _inscriptionService.BuscarPorId(id.Value);
 
             if (inscription == null)
             {
@@ -114,40 +98,16 @@ namespace Escalada.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id,
-            [Bind(
-                "Id,QtdInteira,QtdMeia,ValorTotal,ValorRecebido,Evento,Cliente,TipoPagamento,EventId,CustomerId,PaymentTypeId")]
-            InscriptionEditViewModel form)
+            [Bind("Id,QtdInteira,QtdMeia,ValorTotal,ValorRecebido,EventoId,ClienteId,TipoPagamentoId")] Inscription inscription)
         {
-            var inscription = (Inscription) form;
-
             if (id != inscription.Id)
             {
                 return NotFound();
             }
 
-            inscription.Cliente = await _context.Customers.FindAsync(form.CustomerId);
-            inscription.Evento = await _context.Events.FindAsync(form.EventId);
-            inscription.TipoPagamento = await _context.PaymentTypes.FindAsync(form.PaymentTypeId);
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(inscription);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!InscriptionExists(inscription.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
+                await _inscriptionService.Atualizar(inscription);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -163,11 +123,7 @@ namespace Escalada.Controllers
                 return NotFound();
             }
 
-            var inscription = await _context.Inscriptions
-                .Include(Inscription => Inscription.Cliente)
-                .Include(Inscription => Inscription.Evento)
-                .Include(Inscription => Inscription.TipoPagamento)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var inscription = await _inscriptionService.BuscarPorId(id.Value);
 
             if (inscription == null)
             {
@@ -182,15 +138,8 @@ namespace Escalada.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var inscription = await _context.Inscriptions.FindAsync(id);
-            _context.Remove(inscription);
-            await _context.SaveChangesAsync();
+            await _inscriptionService.Remover(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool InscriptionExists(int id)
-        {
-            return _context.Inscriptions.Any(e => e.Id == id);
         }
 
         private async Task<InscriptionEditViewModel> BuildEditViewModel(Inscription inscription)
@@ -205,8 +154,10 @@ namespace Escalada.Controllers
             return model;
         }
 
-        private async Task<IEnumerable<Customer>> GetCustomers() => await _context.Customers.ToListAsync();
-        private async Task<IEnumerable<Event>> GetEvents() => await _context.Events.ToListAsync();
-        private async Task<IEnumerable<PaymentType>> GetPaymentTypes() => await _context.PaymentTypes.ToListAsync();
+        private async Task<IEnumerable<Customer>> GetCustomers() => await _customerService.Listar();
+        private async Task<IEnumerable<Event>> GetEvents() => await _eventService.Listar();
+
+        private async Task<IEnumerable<PaymentType>> GetPaymentTypes() =>
+            await _inscriptionService.ListarMeiosDePagamento();
     }
 }

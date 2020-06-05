@@ -20,29 +20,25 @@ namespace Escalada.Models.ViewModels
                 ? new Mapper(_editConfig).Map<InscriptionEditViewModel>(inscription)
                 : new InscriptionEditViewModel();
 
-            viewModel.CustomerId = inscription?.Cliente?.Id ?? 0;
-            viewModel.EventId = inscription?.Evento?.Id ?? 0;
-            viewModel.PaymentTypeId = inscription?.TipoPagamento?.Id ?? 0;
-            
             viewModel.EventListItems = events.Select(e => new SelectListItem
             {
                 Value = e.Id.ToString(),
                 Text = e.Nome,
-                Selected = viewModel.EventId == e.Id,
+                Selected = viewModel.EventoId == e.Id,
             });
             
             viewModel.CustomerListItems = customers.Select(e => new SelectListItem
             {
                 Value = e.Id.ToString(),
                 Text = e.Nome,
-                Selected = viewModel.CustomerId == e.Id,
+                Selected = viewModel.ClienteId == e.Id,
             });
             
             viewModel.PaymentTypeListItems = paymentTypes.Select(e => new SelectListItem
             {
                 Value = e.Id.ToString(),
                 Text = e.Name,
-                Selected = viewModel.PaymentTypeId == e.Id,
+                Selected = viewModel.TipoPagamentoId == e.Id,
             });
 
             return viewModel;

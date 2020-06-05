@@ -2,31 +2,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Escalada.Models;
+using Escalada.Models.Services;
 using Escalada.Models.ViewModels;
-using Escalada.Persistence;
 
 namespace Escalada.Controllers
 {
     [Microsoft.AspNetCore.Authorization.Authorize]
     public class EventController : Controller
     {
-        private readonly EscaladaContext _context;
+        private readonly EventService _eventService;
 
-        public EventController(EscaladaContext context)
+        public EventController(EventService eventService)
         {
-            _context = context;
+            _eventService = eventService;
         }
 
         // GET: Event
         public async Task<IActionResult> Index(bool excluidos)
         {
-            var events = await _context.Events
-                .Where(e => excluidos || e.Excluido == false)
-                .Include(e => e.Status)
-                .ToListAsync();
-
+            var events = await _eventService.Listar();
             return View(events);
         }
 
@@ -38,10 +33,7 @@ namespace Escalada.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Events
-                .Include(e => e.Status)
-                .Include(e => e.Inscricoes)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var @event = await _eventService.BuscarPorId(id.Value);
 
             if (@event == null)
             {
@@ -70,18 +62,19 @@ namespace Escalada.Controllers
             EventEditViewModel form)
         {
             var @event = (Event) form;
+            
+            List<EventStatus> statuses = await GetEventStatuses();
 
-            @event.Status = await _context.EventStatus.FindAsync(form.StatusId);
+            @event.Status = statuses.FirstOrDefault(s => s.Id == form.StatusId);
 
             if (ModelState.IsValid)
             {
-                _context.Add(@event);
-                await _context.SaveChangesAsync();
+                await _eventService.Cadastrar(@event);
                 return RedirectToAction(nameof(Index));
             }
 
-            List<EventStatus> statuses = await GetEventStatuses();
-            EventEditViewModel model = EventViewModelFactory.CreateEditViewModel(@event, statuses);
+            EventEditViewModel model = EventViewModelFactory
+                .CreateEditViewModel(@event, statuses);
 
             return View(model);
         }
@@ -94,9 +87,7 @@ namespace Escalada.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Events
-                .Include(e => e.Status)
-                .FirstAsync(m => id == m.Id);
+            var @event = await _eventService.BuscarPorId(id.Value);
 
             if (@event == null)
             {
@@ -120,37 +111,22 @@ namespace Escalada.Controllers
             EventEditViewModel form)
         {
             var @event = (Event) form;
+            
+            List<EventStatus> statuses = await GetEventStatuses();
 
             if (id != form.Id)
             {
                 return NotFound();
             }
 
-            @event.Status = await _context.EventStatus.FindAsync(form.StatusId);
+            @event.Status = statuses.FirstOrDefault(s => s.Id == form.StatusId);
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(@event);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EventExists(@event.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
+                await _eventService.Atualizar(@event);
                 return RedirectToAction(nameof(Index));
             }
 
-            List<EventStatus> statuses = await GetEventStatuses();
             EventEditViewModel model = EventViewModelFactory.CreateEditViewModel(@event, statuses);
 
             return View(model);
@@ -164,9 +140,7 @@ namespace Escalada.Controllers
                 return NotFound();
             }
 
-            var @event = await _context.Events
-                .Include(e => e.Status)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var @event = await _eventService.BuscarPorId(id.Value);
 
             if (@event == null)
             {
@@ -181,20 +155,10 @@ namespace Escalada.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @event = await _context.Events
-                .FindAsync(id);
-
-            @event.Excluido = true;
-
-            await _context.SaveChangesAsync();
+            await _eventService.Remover(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EventExists(int id)
-        {
-            return _context.Events.Any(e => e.Id == id);
-        }
-
-        private async Task<List<EventStatus>> GetEventStatuses() => await _context.EventStatus.ToListAsync();
+        private async Task<List<EventStatus>> GetEventStatuses() => await _eventService.ListarStatusEvento();
     }
 }
