@@ -1,34 +1,33 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Escalada.Models;
+using Escalada.Models.Services;
 using Escalada.Models.ViewModels;
-using Escalada.Service;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
-namespace Escalada
+namespace Escalada.Controllers
 {
     [Microsoft.AspNetCore.Authorization.Authorize]
     public class InscriptionController : Controller
     {
-        private readonly EscaladaContext _context;
+        private readonly InscriptionService _inscriptionService;
+        private readonly EventService _eventService;
+        private readonly CustomerService _customerService;
 
-        public InscriptionController(EscaladaContext context)
+        public InscriptionController(
+            CustomerService customerService,
+            EventService eventService,
+            InscriptionService inscriptionService)
         {
-            _context = context;
+            _customerService = customerService;
+            _eventService = eventService;
+            _inscriptionService = inscriptionService;
         }
 
         // GET: Inscription
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Inscriptions
-              .Include(Inscription => Inscription.Cliente)
-              .Include(Inscription => Inscription.Evento)
-              .Include(Inscription => Inscription.TipoPagamento)
-              .ToListAsync());
+            return View(await _inscriptionService.Listar());
         }
 
         // GET: Inscription/Details/5
@@ -39,11 +38,8 @@ namespace Escalada
                 return NotFound();
             }
 
-            var inscription = await _context.Inscriptions
-              .Include(Inscription => Inscription.Cliente)
-              .Include(Inscription => Inscription.Evento)
-              .Include(Inscription => Inscription.TipoPagamento)
-              .FirstOrDefaultAsync(m => m.Id == id);
+            var inscription = await _inscriptionService.BuscarPorId(id.Value);
+
             if (inscription == null)
             {
                 return NotFound();
@@ -53,9 +49,10 @@ namespace Escalada
         }
 
         // GET: Inscription/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View(InscriptionViewModelFactory.CreateViewModel(Context: _context));
+            var model = await BuildEditViewModel(null);
+            return View(model);
         }
 
         // POST: Inscription/Create
@@ -63,17 +60,17 @@ namespace Escalada
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,QtdInteira,QtdMeia,ValorTotal,ValorRecebido,Evento,Cliente,TipoPagamento,EventId,CustomerId,PaymentTypeId")] InscriptionViewModel inscriptionViewModel)
+        public async Task<IActionResult> Create(
+            [Bind("QtdInteira,QtdMeia,ValorTotal,ValorRecebido,EventoId,ClienteId,TipoPagamentoId")] Inscription inscription)
         {
-            Inscription inscription = new Inscription();
             if (ModelState.IsValid)
             {
-                inscription = InscriptionViewModelFactory.CreateModel(Context: _context, inscriptionViewModel);
-                _context.Inscriptions.Add(inscription);
-                await _context.SaveChangesAsync();
+                await _inscriptionService.Cadastrar(inscription);
                 return RedirectToAction(nameof(Index));
             }
-            return View(inscription);
+
+            var model = await BuildEditViewModel(inscription);
+            return View(model);
         }
 
         // GET: Inscription/Edit/5
@@ -84,18 +81,15 @@ namespace Escalada
                 return NotFound();
             }
 
-            var inscription = await _context.Inscriptions
-              .Include(Inscription => Inscription.Cliente)
-              .Include(Inscription => Inscription.Evento)
-              .Include(Inscription => Inscription.TipoPagamento)
-              .FirstAsync(m => id == m.Id);
+            var inscription = await _inscriptionService.BuscarPorId(id.Value);
 
             if (inscription == null)
             {
                 return NotFound();
             }
 
-            return View(InscriptionViewModelFactory.CreateViewModel(Context: _context, Inscription: inscription));
+            var model = await BuildEditViewModel(inscription);
+            return View(model);
         }
 
         // POST: Inscription/Edit/5
@@ -103,34 +97,22 @@ namespace Escalada
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,QtdInteira,QtdMeia,ValorTotal,ValorRecebido,Evento,Cliente,TipoPagamento,EventId,CustomerId,PaymentTypeId")] InscriptionViewModel inscriptionViewModel)
+        public async Task<IActionResult> Edit(int id,
+            [Bind("Id,QtdInteira,QtdMeia,ValorTotal,ValorRecebido,EventoId,ClienteId,TipoPagamentoId")] Inscription inscription)
         {
-            if (id != inscriptionViewModel.Id)
+            if (id != inscription.Id)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(InscriptionViewModelFactory.CreateModel(Context: _context, inscriptionViewModel));
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!InscriptionExists(inscriptionViewModel.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await _inscriptionService.Atualizar(inscription);
                 return RedirectToAction(nameof(Index));
             }
-            return View(inscriptionViewModel);
+
+            var model = await BuildEditViewModel(inscription);
+            return View(model);
         }
 
         // GET: Inscription/Delete/5
@@ -141,11 +123,8 @@ namespace Escalada
                 return NotFound();
             }
 
-            var inscription = await _context.Inscriptions
-              .Include(Inscription => Inscription.Cliente)
-              .Include(Inscription => Inscription.Evento)
-              .Include(Inscription => Inscription.TipoPagamento)
-              .FirstOrDefaultAsync(m => m.Id == id);
+            var inscription = await _inscriptionService.BuscarPorId(id.Value);
+
             if (inscription == null)
             {
                 return NotFound();
@@ -159,15 +138,26 @@ namespace Escalada
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var inscription = await _context.Inscriptions.FindAsync(id);
-            _context.Inscriptions.Remove(inscription);
-            await _context.SaveChangesAsync();
+            await _inscriptionService.Remover(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool InscriptionExists(int id)
+        private async Task<InscriptionEditViewModel> BuildEditViewModel(Inscription inscription)
         {
-            return _context.Inscriptions.Any(e => e.Id == id);
+            InscriptionEditViewModel model = InscriptionViewModelFactory.CreateEditViewModel(
+                inscription,
+                events: await GetEvents(),
+                paymentTypes: await GetPaymentTypes(),
+                customers: await GetCustomers()
+            );
+
+            return model;
         }
+
+        private async Task<IEnumerable<Customer>> GetCustomers() => await _customerService.Listar();
+        private async Task<IEnumerable<Event>> GetEvents() => await _eventService.Listar();
+
+        private async Task<IEnumerable<PaymentType>> GetPaymentTypes() =>
+            await _inscriptionService.ListarMeiosDePagamento();
     }
 }

@@ -1,11 +1,8 @@
 using Escalada.Models;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
 
-namespace Escalada.Service
+namespace Escalada.Persistence
 {
     class IdentityInitializer : IEntityTypeConfiguration<User>
     {

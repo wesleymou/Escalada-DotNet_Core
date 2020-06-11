@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Escalada.Models;
-using Escalada.Service;
+using Escalada.Persistence;
 
 namespace Escalada.Controllers
 {

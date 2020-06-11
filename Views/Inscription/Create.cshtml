@@ -1,4 +1,4 @@
-@model Escalada.Models.ViewModels.InscriptionViewModel
+@model Escalada.Models.ViewModels.InscriptionEditViewModel
 
 @{
 ViewData["Title"] = "Create";
@@ -13,14 +13,14 @@ ViewData["Title"] = "Create";
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="EventId" class="control-label">Evento</label>
-                <select asp-for="EventId" asp-items="Model.Events" class="form-control"></select>
-                <span asp-validation-for="EventId" class="text-danger"></span>
+                <label asp-for="Evento" class="control-label"></label>
+                <select asp-for="EventoId" asp-items="Model.EventListItems" class="form-control"></select>
+                <span asp-validation-for="EventoId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CustomerId" class="control-label">Cliente</label>
-                <select asp-for="CustomerId" asp-items="Model.Customers" class="form-control"></select>
-                <span asp-validation-for="CustomerId" class="text-danger"></span>
+                <label asp-for="Cliente" class="control-label"></label>
+                <select asp-for="ClienteId" asp-items="Model.CustomerListItems" class="form-control"></select>
+                <span asp-validation-for="ClienteId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="QtdInteira" class="control-label"></label>
@@ -43,9 +43,9 @@ ViewData["Title"] = "Create";
                 <span asp-validation-for="ValorRecebido" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PaymentTypeId" class="control-label">Tipo de Pagamento</label>
-                <select asp-for="PaymentTypeId" asp-items="Model.PaymentTypes" class="form-control"></select>
-                <span asp-validation-for="PaymentTypeId" class="text-danger"></span>
+                <label asp-for="TipoPagamento" class="control-label">Tipo de Pagamento</label>
+                <select asp-for="TipoPagamentoId" asp-items="Model.PaymentTypeListItems" class="form-control"></select>
+                <span asp-validation-for="TipoPagamentoId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

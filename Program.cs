@@ -9,7 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 
-using Escalada.Service;
+using Escalada.Persistence;
 
 namespace Escalada
 {
