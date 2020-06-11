@@ -1,30 +1,46 @@
-using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Escalada.Service;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Escalada.Models.ViewModels
 {
-    public static class EventViewModelFactory
+    public class EventViewModelFactory
     {
-        private static readonly MapperConfiguration _editMapConfig = new MapperConfiguration(config =>
-            config.CreateMap<Event, EventEditViewModel>());
-
-        public static EventEditViewModel CreateEditViewModel(Event @event, IEnumerable<EventStatus> statuses)
+        public static Event CreateModel(EscaladaContext Context, EventViewModel EventViewModel)
         {
-            var viewModel = @event != null
-                ? new Mapper(_editMapConfig).Map<EventEditViewModel>(@event)
-                : new EventEditViewModel();
+            var mapper = new Mapper(new MapperConfiguration(cfg => cfg.CreateMap<EventViewModel, Event>()));
 
-            viewModel.StatusId = @event?.Status?.Id ?? 0;
-            viewModel.StatusList = statuses.Select(status => new SelectListItem
+            Event Event = mapper.Map<Event>(EventViewModel);
+
+            Event.Status = Context.EventStatus.FirstOrDefault(e => e.Id == int.Parse(EventViewModel.StatusId ?? "1"));
+            return Event;
+        }
+
+        public static EventViewModel CreateViewModel(EscaladaContext Context, Event Event)
+        {
+            var mapper = new Mapper(new MapperConfiguration(cfg => cfg.CreateMap<Event, EventViewModel>()));
+
+            EventViewModel EventViewModel = mapper.Map<EventViewModel>(Event);
+            EventViewModel.StatusList = Context.EventStatus.ToList().Select(Status =>
+            new SelectListItem
             {
-                Value = status.Id.ToString(),
-                Text = status.Name,
-                Selected = @event?.Status?.Id == status.Id,
+                Value = Status.Id.ToString(),
+                Text = Status.Name
             });
+            return EventViewModel;
+        }
 
-            return viewModel;
+        public static EventViewModel CreateViewModel(EscaladaContext Context)
+        {
+            EventViewModel EventViewModel = new EventViewModel();
+            EventViewModel.StatusList = Context.EventStatus.ToList().Select(Status =>
+            new SelectListItem
+            {
+                Value = Status.Id.ToString(),
+                Text = Status.Name
+            });
+            return EventViewModel;
         }
     }
 }

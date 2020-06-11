@@ -1,8 +1,10 @@
-using Escalada.Models;
+
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Escalada.Models;
 
-namespace Escalada.Persistence
+
+namespace Escalada.Service
 {
   public class IdentityContext : IdentityDbContext<User>
   {

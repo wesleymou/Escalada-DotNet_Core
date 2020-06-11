@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace Escalada.Models
 {
@@ -31,13 +30,11 @@ namespace Escalada.Models
         public decimal ValorIngresso { get; set; }
 
         public string Cronograma { get; set; }
-        public IEnumerable<Inscription> Inscricoes { get; set; }
-        public IEnumerable<Agreement> Fornecedores { get; set; }
+        public virtual IEnumerable<Inscription> Inscricoes { get; set; }
+        public virtual IEnumerable<Agreement> Fornecedores { get; set; }
 
         [Display(Name = "Status do evento")]
         public EventStatus Status { get; set; }
         public bool Excluido { get; set; }
-        
-        public int QtdDisponiveis { get => Capacidade - Inscricoes?.Count() ?? 0; }
     }
 }

@@ -1,7 +1,9 @@
-using Escalada.Models;
+using Npgsql.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Escalada.Persistence
+using Escalada.Models;
+
+namespace Escalada.Service
 {
   public class EscaladaContext : DbContext
   {
