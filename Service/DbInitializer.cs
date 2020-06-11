@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using Escalada.Models;
 
-namespace Escalada.Persistence
+namespace Escalada.Service
 {
     public static class DbInitializer
     {

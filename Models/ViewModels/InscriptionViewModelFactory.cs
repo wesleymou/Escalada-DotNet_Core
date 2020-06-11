@@ -1,47 +1,80 @@
-using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using Escalada.Service;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Escalada.Models.ViewModels
 {
-    public static class InscriptionViewModelFactory
+    class InscriptionViewModelFactory
     {
-        private static readonly MapperConfiguration _editConfig =
-            new MapperConfiguration(cfg => cfg.CreateMap<Inscription, InscriptionEditViewModel>());
-
-        public static InscriptionEditViewModel CreateEditViewModel(
-            Inscription inscription,
-            IEnumerable<Event> events,
-            IEnumerable<PaymentType> paymentTypes,
-            IEnumerable<Customer> customers)
+        public static Inscription CreateModel(EscaladaContext Context, InscriptionViewModel InscriptionViewModel)
         {
-            InscriptionEditViewModel viewModel = inscription != null
-                ? new Mapper(_editConfig).Map<InscriptionEditViewModel>(inscription)
-                : new InscriptionEditViewModel();
+            var mapper = new Mapper(new MapperConfiguration(cfg => cfg.CreateMap<InscriptionViewModel, Inscription>()));
 
-            viewModel.EventListItems = events.Select(e => new SelectListItem
+            Inscription Inscription = mapper.Map<Inscription>(InscriptionViewModel);
+
+            Inscription.Cliente = Context.Customers.FirstOrDefault(c => c.Id == int.Parse(InscriptionViewModel.CustomerId ?? "1"));
+            Inscription.Evento = Context.Events.FirstOrDefault(e => e.Id == int.Parse(InscriptionViewModel.EventId ?? "1"));
+            Inscription.TipoPagamento = Context.PaymentTypes.FirstOrDefault(p => p.Id == int.Parse(InscriptionViewModel.PaymentTypeId ?? "1"));
+            return Inscription;
+        }
+
+        public static InscriptionViewModel CreateViewModel(EscaladaContext Context, Inscription Inscription)
+        {
+            var mapper = new Mapper(new MapperConfiguration(cfg => cfg.CreateMap<Inscription, InscriptionViewModel>()));
+
+            InscriptionViewModel InscriptionViewModel = mapper.Map<InscriptionViewModel>(Inscription);
+
+            InscriptionViewModel.Events = Context.Events.ToList().Select(Event =>
+            new SelectListItem
             {
-                Value = e.Id.ToString(),
-                Text = e.Nome,
-                Selected = viewModel.EventoId == e.Id,
-            });
-            
-            viewModel.CustomerListItems = customers.Select(e => new SelectListItem
-            {
-                Value = e.Id.ToString(),
-                Text = e.Nome,
-                Selected = viewModel.ClienteId == e.Id,
-            });
-            
-            viewModel.PaymentTypeListItems = paymentTypes.Select(e => new SelectListItem
-            {
-                Value = e.Id.ToString(),
-                Text = e.Name,
-                Selected = viewModel.TipoPagamentoId == e.Id,
+                Value = Event.Id.ToString(),
+                Text = Event.Nome
             });
 
-            return viewModel;
+            InscriptionViewModel.Customers = Context.Customers.ToList().Select(Customer =>
+              new SelectListItem
+              {
+                  Value = Customer.Id.ToString(),
+                  Text = Customer.Nome
+              });
+
+            InscriptionViewModel.PaymentTypes = Context.PaymentTypes.ToList().Select(PaymentType =>
+              new SelectListItem
+              {
+                  Value = PaymentType.Id.ToString(),
+                  Text = PaymentType.Name
+              });
+
+            return InscriptionViewModel;
+        }
+
+        public static InscriptionViewModel CreateViewModel(EscaladaContext Context)
+        {
+            InscriptionViewModel InscriptionViewModel = new InscriptionViewModel();
+
+            InscriptionViewModel.Events = Context.Events.ToList().Select(Event =>
+            new SelectListItem
+            {
+                Value = Event.Id.ToString(),
+                Text = Event.Nome
+            });
+
+            InscriptionViewModel.Customers = Context.Customers.ToList().Select(Customer =>
+              new SelectListItem
+              {
+                  Value = Customer.Id.ToString(),
+                  Text = Customer.Nome
+              });
+
+            InscriptionViewModel.PaymentTypes = Context.PaymentTypes.ToList().Select(PaymentType =>
+              new SelectListItem
+              {
+                  Value = PaymentType.Id.ToString(),
+                  Text = PaymentType.Name
+              });
+
+            return InscriptionViewModel;
         }
     }
 }

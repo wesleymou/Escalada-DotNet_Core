@@ -1,4 +1,4 @@
-using Escalada.Persistence;
+using Escalada.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -31,10 +31,11 @@ namespace Escalada
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<EscaladaContext>(options =>
+              options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddDbContext<IdentityContext>(options =>
               options.UseNpgsql(Configuration.GetConnectionString("IdentityConnection")));
-            
-            services.AddEscaladaDbServices(Configuration);
 
             services.AddDefaultIdentity<User>(options =>
                 {
