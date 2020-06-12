@@ -32,7 +32,7 @@ namespace Escalada.Models.ViewModels
             InscriptionViewModel.AllEvents = Events;
 
             InscriptionViewModel.EventId = Inscription.Evento.Id.ToString();
-            InscriptionViewModel.Events = Events.Select(Event =>
+            InscriptionViewModel.Events = Events.Where(e => !e.Excluido).Select(Event =>
             new SelectListItem
             {
                 Value = Event.Id.ToString(),
@@ -40,7 +40,7 @@ namespace Escalada.Models.ViewModels
             });
 
             InscriptionViewModel.CustomerId = Inscription.Cliente.Id.ToString();
-            InscriptionViewModel.Customers = Context.Customers.ToList().Select(Customer =>
+            InscriptionViewModel.Customers = Context.Customers.Where(c => !c.Excluido).ToList().Select(Customer =>
               new SelectListItem
               {
                   Value = Customer.Id.ToString(),
@@ -66,14 +66,14 @@ namespace Escalada.Models.ViewModels
 
             InscriptionViewModel.AllEvents = Events;
 
-            InscriptionViewModel.Events = Events.Select(Event =>
+            InscriptionViewModel.Events = Events.Where(e => !e.Excluido).Select(Event =>
             new SelectListItem
             {
                 Value = Event.Id.ToString(),
                 Text = Event.Nome
             });
 
-            InscriptionViewModel.Customers = Context.Customers.ToList().Select(Customer =>
+            InscriptionViewModel.Customers = Context.Customers.Where(c => !c.Excluido).ToList().Select(Customer =>
               new SelectListItem
               {
                   Value = Customer.Id.ToString(),
