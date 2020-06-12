@@ -22,6 +22,7 @@ namespace Escalada.Models.ViewModels
             var mapper = new Mapper(new MapperConfiguration(cfg => cfg.CreateMap<Event, EventViewModel>()));
 
             EventViewModel EventViewModel = mapper.Map<EventViewModel>(Event);
+            EventViewModel.StatusId = Event.Status.Id.ToString();
             EventViewModel.StatusList = Context.EventStatus.ToList().Select(Status =>
             new SelectListItem
             {
