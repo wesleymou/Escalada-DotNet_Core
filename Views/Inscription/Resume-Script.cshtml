@@ -1,8 +1,8 @@
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script>
+  $('#ValorRecebido').mask('000.000.000.000.000,00', { reverse: true })
+
   $(() => {
     atualizarResumo()
-    $('#ValorRecebido').val('@Model.ValorRecebido'.replace(',', '.'))
   })
 
   function atualizarResumo() {

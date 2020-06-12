@@ -8,7 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-
+using System.Globalization;
+using System.Threading;
 using Escalada.Service;
 
 namespace Escalada
@@ -17,6 +18,8 @@ namespace Escalada
     {
         public static void Main(string[] args)
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR");
+
             var host = CreateHostBuilder(args).Build();
 
             // using (var scope = host.Services.CreateScope())

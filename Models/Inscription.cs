@@ -8,8 +8,6 @@ namespace Escalada.Models
         public int QtdInteira { get; set; }
         public int QtdMeia { get; set; }
         public decimal ValorTotal { get; set; } // O valor deve ser positivo.
-
-        [DisplayFormat(DataFormatString = "{0:0.##}", ApplyFormatInEditMode = true)]
         public decimal ValorRecebido { get; set; } // O valor deve ser positivo.
         public Customer Cliente { get; set; }
         public Event Evento { get; set; }

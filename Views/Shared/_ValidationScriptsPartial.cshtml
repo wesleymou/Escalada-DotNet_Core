@@ -1,2 +1,15 @@
-﻿<script src="~/lib/jquery-validation/jquery.validate.min.js"></script>
+﻿<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-mask-plugin/dist/jquery.mask.min.js"></script>
+<script src="~/lib/jquery-validation/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+
+<!-- <script src="~/lib/jquery-validation-globalize/dist/globalize.js"></script> -->
+
+<script>
+    var originalNumber = $.validator.methods.number;
+    var wrappedNumber = function (value, element) {
+        var fixedValue = parseFloat(value.toString().replace(",", "."));
+        return originalNumber.call($.validator.prototype, fixedValue, element);     // Call function as if "this" is the original caller
+    };
+    $.validator.methods.number = wrappedNumber;
+</script>
