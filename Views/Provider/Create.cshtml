@@ -12,12 +12,12 @@ ViewData["Title"] = "Cadastrar";
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group required">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" required />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group required">
                 <label asp-for="CNPJ" class="control-label"></label>
                 <input asp-for="CNPJ" class="form-control cnpj" required />
                 <span asp-validation-for="CNPJ" class="text-danger"></span>
@@ -27,12 +27,12 @@ ViewData["Title"] = "Cadastrar";
                 <input asp-for="Responsavel" class="form-control" required />
                 <span asp-validation-for="Responsavel" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group required">
                 <label asp-for="Email" class="control-label"></label>
                 <input id="email" asp-for="Email" class="form-control" required />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group required">
                 <label asp-for="Telefone" class="control-label"></label>
                 <input asp-for="Telefone" class="form-control telefone" required />
                 <span asp-validation-for="Telefone" class="text-danger"></span>

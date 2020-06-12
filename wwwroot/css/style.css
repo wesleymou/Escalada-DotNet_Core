@@ -33,3 +33,8 @@
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
+.form-group.required .control-label:after {
+  content: '*';
+  color: red;
+}

@@ -12,44 +12,44 @@ ViewData["Title"] = "Editar";
         <form asp-asp-controller="Event" asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
+            <div class="form-group required">
                 <label asp-for="Nome" class="control-label"></label>
                 <input asp-for="Nome" class="form-control" />
                 <span asp-validation-for="Nome" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group required">
                 <label asp-for="DataInicio" class="control-label"></label>
                 <input asp-for="DataInicio" class="form-control" />
                 <span asp-validation-for="DataInicio" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group required">
                 <label asp-for="DataTermino" class="control-label"></label>
                 <input asp-for="DataTermino" class="form-control" />
                 <span asp-validation-for="DataTermino" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group required">
                 <label asp-for="Local" class="control-label"></label>
                 <input asp-for="Local" class="form-control" />
                 <span asp-validation-for="Local" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group required">
                 <label asp-for="Capacidade" class="control-label"></label>
-                <input asp-for="Capacidade" class="form-control" />
+                <input asp-for="Capacidade" min="0" class="form-control" />
                 <span asp-validation-for="Capacidade" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group required">
                 <label asp-for="Quorum" class="control-label"></label>
-                <input asp-for="Quorum" class="form-control" />
+                <input asp-for="Quorum" min="0" class="form-control" />
                 <span asp-validation-for="Quorum" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="OrcamentoPrevio" class="control-label"></label>
-                <input asp-for="OrcamentoPrevio" class="form-control" />
+                <input asp-for="OrcamentoPrevio" class="form-control money" />
                 <span asp-validation-for="OrcamentoPrevio" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group required">
                 <label asp-for="ValorIngresso" class="control-label"></label>
-                <input asp-for="ValorIngresso" class="form-control" />
+                <input asp-for="ValorIngresso" class="form-control money" />
                 <span asp-validation-for="ValorIngresso" class="text-danger"></span>
             </div>
 
@@ -59,7 +59,7 @@ ViewData["Title"] = "Editar";
                 <span asp-validation-for="Cronograma" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="form-group required">
                 <label asp-for="Status" class="control-label"></label>
                 <select asp-for="StatusId" asp-items="@Model.StatusList" class="form-control">
                     <option disabled selected hidden value=@Model.Status.Id>@Model.Status.Name</option>
@@ -77,6 +77,4 @@ ViewData["Title"] = "Editar";
     <a asp-action="Index">Retornar à lista</a>
 </div>
 
-@section Scripts {
-@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+@await Html.PartialAsync("_ValidationScriptsPartial")
