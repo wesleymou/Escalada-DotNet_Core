@@ -1,63 +1,98 @@
-@model Escalada.Models.ViewModels.InscriptionViewModel
+@model InscriptionViewModel
 
 @{
-ViewData["Title"] = "Create";
+ViewData["Title"] = "Vender ingresso";
 }
 
-<h1>Create</h1>
+<h1>Vender ingresso</h1>
 
-<h4>Inscription</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form id="create-inscription" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="EventId" class="control-label">Evento</label>
-                <select asp-for="EventId" asp-items="Model.Events" class="form-control"></select>
-                <span asp-validation-for="EventId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="CustomerId" class="control-label">Cliente</label>
-                <select asp-for="CustomerId" asp-items="Model.Customers" class="form-control"></select>
+                <select asp-for="CustomerId" asp-items="Model.Customers" class="form-control" required>
+                    <option disabled selected hidden value=""></option>
+                </select>
                 <span asp-validation-for="CustomerId" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="EventId" class="control-label">Evento</label>
+                <select id="eventoId" asp-for="EventId" asp-items="Model.Events" class="form-control" required>
+                    <option disabled selected hidden value=""></option>
+                </select>
+                <span asp-validation-for="EventId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PaymentTypeId" class="control-label">Tipo de Pagamento</label>
+                <select asp-for="PaymentTypeId" asp-items="Model.PaymentTypes" class="form-control" required>
+                    <option disabled selected hidden value=""></option>
+                </select>
+                <span asp-validation-for="PaymentTypeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="QtdInteira" class="control-label"></label>
-                <input asp-for="QtdInteira" class="form-control" />
+                <input id="QtdInteira" min="0" step="1" value="" required
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '')" asp-for="QtdInteira"
+                    class="form-control" />
                 <span asp-validation-for="QtdInteira" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="QtdMeia" class="control-label"></label>
-                <input asp-for="QtdMeia" class="form-control" />
+                <input id="QtdMeia" min="0" step="1" value="" required
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '')" asp-for="QtdMeia" class="form-control" />
                 <span asp-validation-for="QtdMeia" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ValorTotal" class="control-label"></label>
-                <input asp-for="ValorTotal" class="form-control" />
-                <span asp-validation-for="ValorTotal" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="ValorRecebido" class="control-label"></label>
-                <input asp-for="ValorRecebido" class="form-control" />
+                <input id="ValorRecebido" min="0" value="" asp-for="ValorRecebido" class="form-control" required />
                 <span asp-validation-for="ValorRecebido" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PaymentTypeId" class="control-label">Tipo de Pagamento</label>
-                <select asp-for="PaymentTypeId" asp-items="Model.PaymentTypes" class="form-control"></select>
-                <span asp-validation-for="PaymentTypeId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Resumo da compra</h5>
+                <div class="card card-body">
+                    <dl class="row">
+                        <dt class="col-sm-6">
+                            Inteiras:
+                        </dt>
+                        <dd id="resumo-inteira" class="col-sm-6 text-info">
+                            R$ <span id="valor">0,00</span>
+                        </dd>
+                        <dt class="col-sm-6">
+                            Meias:
+                        </dt>
+                        <dd id="resumo-meia" class="col-sm-6 text-info">
+                            R$ <span id="valor">0,00</span>
+                        </dd>
+                        <dt class="col-sm-6">
+                            Valor total:
+                        </dt>
+                        <dd id="resumo-total" class="col-sm-6 text-primary">
+                            R$ <span id="valor">0,00</span>
+                        </dd>
+                        <dt class="col-sm-6">
+                            Valor restante:
+                        </dt>
+                        <dd id="resumo-restante" class="col-sm-6 text-danger">
+                            R$ <span id="valor">0,00</span>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <button type="submit" form="create-inscription" class="btn btn-success col mt-3">Realizar venda</button>
+        <div class="d-flex flex-row-reverse">
+            <a class="text-secondary" asp-action="Index">Retornar à lista</a>
+        </div>
+    </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+@await Html.PartialAsync("_ValidationScriptsPartial")
+@await Html.PartialAsync("Resume-Script")

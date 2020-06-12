@@ -1,0 +1,37 @@
+<script>
+  $('#ValorRecebido').mask('000.000.000.000.000,00', { reverse: true })
+
+  $(() => {
+    atualizarResumo()
+  })
+
+  function atualizarResumo() {
+    var eventos = [];
+
+    @foreach(var d in Model.AllEvents)
+    {
+      @: eventos.push({ valorIngresso: "@d.ValorIngresso".replace(',', '.'), id: "@d.Id" })
+    }
+
+    let eventoId = $('#eventoId').val()
+    let valorIngresso = parseFloat(eventos.find(x => x.id == eventoId).valorIngresso)
+
+    let quantidadeInteira = $('#QtdInteira').val()
+    let quantidadeMeia = $('#QtdMeia').val()
+
+    let valorInteira = quantidadeInteira * valorIngresso
+    let valorMeia = quantidadeMeia * (valorIngresso / 2)
+
+    let valorTotal = valorInteira + valorMeia
+    let valorRecebido = `${$('#ValorRecebido').val()}`.replace(',', '.')
+
+    $('#resumo-inteira #valor').html(valorInteira.toFixed(2))
+    $('#resumo-meia #valor').html(valorMeia.toFixed(2))
+    $('#resumo-total #valor').html(valorTotal.toFixed(2))
+    $('#resumo-restante #valor').html((valorTotal - valorRecebido).toFixed(2))
+  }
+
+  $('#QtdInteira, #QtdMeia, #ValorRecebido, #eventoId').change(() => {
+    atualizarResumo()
+  })
+</script>
