@@ -23,12 +23,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="NumFone1" class="control-label"></label>
-                <input asp-for="NumFone1" class="form-control phone"/>
+                <input asp-for="NumFone1" class="form-control telefone"/>
                 <span asp-validation-for="NumFone1" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="NumFone2" class="control-label"></label>
-                <input asp-for="NumFone2" class="form-control phone" />
+                <input asp-for="NumFone2" class="form-control telefone" />
                 <span asp-validation-for="NumFone2" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -51,3 +51,5 @@
 <div>
     <a asp-action="Index">Retornar à lista</a>
 </div>
+
+@await Html.PartialAsync("_ValidationScriptsPartial")
