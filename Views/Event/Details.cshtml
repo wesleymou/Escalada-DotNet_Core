@@ -1,86 +1,158 @@
-@model Escalada.Models.Event
+@model Escalada.Models.ViewModels.EventDetailsViewModel
 
 @{
-ViewData["Title"] = "Detalhes do evento";
+    ViewData["Title"] = "Detalhes do evento";
 }
 
-<h1>@Html.DisplayFor(model => model.Nome)</h1>
+<h1>@Html.DisplayFor(model => model.Evento.Nome)</h1>
+
 <h4>Detalhes</h4>
 
-@if (Model.Excluido)
+@if (Model.Evento.Excluido)
 {
-<div class="alert alert-danger">Este evento foi excluído do sistema e está arquivado para consulta.</div>
+    <div class="alert alert-danger mb-4">Este evento foi excluído do sistema e está arquivado para consulta.</div>
 }
 
-<div>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DataInicio)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DataInicio)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.DataTermino)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.DataTermino)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Local)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Local)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Capacidade)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Capacidade)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Quorum)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Quorum)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OrcamentoPrevio)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OrcamentoPrevio)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ValorIngresso)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ValorIngresso)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Cronograma)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Cronograma)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Status.Name)
-        </dd>
-    </dl>
+<div class="row mb-3">
+    <div class="col-6">
+        <a asp-action="Index">Retornar à lista</a>
+    </div>
+    <div class="col-6 text-right">
+        @if (!Model.Evento.Excluido)
+        {
+            <a class="btn btn-sm btn-outline-secondary mr-2" asp-action="Edit" asp-route-id="@Model.Evento.Id">Editar evento</a>
+        }
+    </div>
 </div>
-<div>
-    @if (!Model.Excluido)
+
+<div class="mb-4">
+    <div class="card card-body">
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Evento.Nome)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => model.Evento.Nome)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Evento.DataInicio)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => model.Evento.DataInicio)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Evento.DataTermino)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => model.Evento.DataTermino)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Evento.Local)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => model.Evento.Local)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Evento.Capacidade)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => model.Evento.Capacidade)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Evento.Quorum)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => model.Evento.Quorum)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Evento.OrcamentoPrevio)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => model.Evento.OrcamentoPrevio)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Evento.ValorIngresso)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => model.Evento.ValorIngresso)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Evento.Cronograma)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => model.Evento.Cronograma)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Evento.Status)
+            </dt>
+            <dd class="col-sm-4">
+                @Html.DisplayFor(model => model.Evento.Status.Name)
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<div class="d-flex justify-content-between mb-4">
+    <div>
+        <h4>Vendas de ingressos</h4>
+    </div>
+    @if (!@Model.Evento.Excluido)
     {
-    <span><a asp-action="Edit" asp-route-id="@Model.Id">Editar</a> | </span>
+        <div>
+            <a class="btn btn-primary" asp-controller="Inscription" asp-action="Create">Vender ingresso</a>
+        </div>
     }
-    <a asp-action="Index">Retornar à lista</a>
 </div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        @Model.IngressosVendidos/@Model.Evento.Capacidade ingressos vendidos
+    </div>
+    <div class="col-md-4 text-md-center">
+        @Model.IngressosRestantes restantes
+    </div>
+    <div class="col-md-4 text-md-right">
+        R$ @Model.ValorArrecadado arrecadados no total
+    </div>
+</div>
+
+<div class="mb-4">
+    <div class="progress">
+        <div class="progress-bar bg-primary" style="width: @Model.PorcentagemVendidos%; max-width: 100%"></div>
+    </div>
+</div>
+
+<p class="text-black-50 text-center">Ingressos vendidos:</p>
+
+<ul class="list-group">
+    @foreach (var inscricao in Model.Evento.Inscricoes)
+    {
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                @inscricao.Cliente.Nome
+            </div>
+            <div>
+                <span class="badge badge-pill badge-primary">@inscricao.QtdInteira inteiras</span>
+                <span class="badge badge-pill badge-secondary">@inscricao.QtdMeia meias</span>
+            </div>
+
+            <div>
+                Pago: R$ @inscricao.ValorRecebido
+                @if ((inscricao.ValorTotal - inscricao.ValorRecebido) == 0)
+                {
+                    <span class="badge badge-pill badge-success">Pago</span>
+                }
+                else
+                {
+                    <span class="badge badge-pill badge-danger">Em falta</span>
+                }
+            </div>
+            <a asp-controller="Inscription" asp-action="Details" asp-route-id="@inscricao.Id">Ver detalhes</a>
+        </li>
+    }
+    
+    @if (!Model.Evento.Inscricoes.Any())
+    {
+        <div class="alert alert-light">Nenhum ingresso foi vendido para esse evento</div>
+    }
+</ul>

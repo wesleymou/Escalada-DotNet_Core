@@ -40,6 +40,13 @@ namespace Escalada.Controllers
 
             var @event = await _context.Events
                 .Include(e => e.Status)
+                .Include(e => e.Inscricoes)
+                    .ThenInclude(i => i.Cliente)
+                .Include(e => e.Inscricoes)
+                    .ThenInclude(i => i.Evento)
+                .Include(e => e.Inscricoes)
+                    .ThenInclude(i => i.TipoPagamento)
+                .Include(e => e.Fornecedores)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (@event == null)
@@ -47,7 +54,10 @@ namespace Escalada.Controllers
                 return NotFound();
             }
 
-            return View(@event);
+            return View(new EventDetailsViewModel
+            {
+                Evento = @event
+            });
         }
 
         // GET: Event/Create
