@@ -33,22 +33,22 @@ ViewData["Title"] = "Cadastrar Evento";
             </div>
             <div class="form-group">
                 <label asp-for="Capacidade" class="control-label"></label>
-                <input asp-for="Capacidade" class="form-control" />
+                <input asp-for="Capacidade" min="0" class="form-control" />
                 <span asp-validation-for="Capacidade" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Quorum" class="control-label"></label>
-                <input asp-for="Quorum" class="form-control" />
+                <input asp-for="Quorum" min="0" class="form-control" />
                 <span asp-validation-for="Quorum" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="OrcamentoPrevio" class="control-label"></label>
-                <input asp-for="OrcamentoPrevio" class="form-control" />
+                <input asp-for="OrcamentoPrevio" class="form-control money" />
                 <span asp-validation-for="OrcamentoPrevio" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ValorIngresso" class="control-label"></label>
-                <input asp-for="ValorIngresso" class="form-control" />
+                <input asp-for="ValorIngresso" class="form-control money" />
                 <span asp-validation-for="ValorIngresso" class="text-danger"></span>
             </div>
 
@@ -74,6 +74,4 @@ ViewData["Title"] = "Cadastrar Evento";
     <a asp-action="Index">Retornar à lista</a>
 </div>
 
-@section Scripts {
-@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+@await Html.PartialAsync("_ValidationScriptsPartial")
