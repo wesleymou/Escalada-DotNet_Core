@@ -3,6 +3,7 @@ using System.Linq;
 using AutoMapper;
 using Escalada.Service;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace Escalada.Models.ViewModels
 {
@@ -21,13 +22,13 @@ namespace Escalada.Models.ViewModels
             return Inscription;
         }
 
-        public static InscriptionViewModel CreateViewModel(EscaladaContext Context, Inscription Inscription)
+        public static InscriptionViewModel CreateViewModel(EscaladaContext context, Inscription Inscription)
         {
             var mapper = new Mapper(new MapperConfiguration(cfg => cfg.CreateMap<Inscription, InscriptionViewModel>()));
 
             InscriptionViewModel InscriptionViewModel = mapper.Map<InscriptionViewModel>(Inscription);
 
-            var Events = Context.Events.ToList();
+            var Events = context.Events.ToList();
 
             InscriptionViewModel.AllEvents = Events;
 
@@ -40,7 +41,7 @@ namespace Escalada.Models.ViewModels
             });
 
             InscriptionViewModel.CustomerId = Inscription.Cliente.Id.ToString();
-            InscriptionViewModel.Customers = Context.Customers.Where(c => !c.Excluido).ToList().Select(Customer =>
+            InscriptionViewModel.Customers = context.Customers.Where(c => !c.Excluido).ToList().Select(Customer =>
               new SelectListItem
               {
                   Value = Customer.Id.ToString(),
@@ -48,7 +49,7 @@ namespace Escalada.Models.ViewModels
               });
 
             InscriptionViewModel.PaymentTypeId = Inscription.TipoPagamento.Id.ToString();
-            InscriptionViewModel.PaymentTypes = Context.PaymentTypes.ToList().Select(PaymentType =>
+            InscriptionViewModel.PaymentTypes = context.PaymentTypes.ToList().Select(PaymentType =>
               new SelectListItem
               {
                   Value = PaymentType.Id.ToString(),
@@ -58,36 +59,46 @@ namespace Escalada.Models.ViewModels
             return InscriptionViewModel;
         }
 
-        public static InscriptionViewModel CreateViewModel(EscaladaContext Context)
+        public static InscriptionViewModel CreateViewModel(EscaladaContext context, int eventId)
         {
-            InscriptionViewModel InscriptionViewModel = new InscriptionViewModel();
+            InscriptionViewModel viewModel = new InscriptionViewModel();
 
-            var Events = Context.Events.ToList();
+            if (eventId > 0)
+            {
+                viewModel.SelectedEvent = context.Events.Where(e => e.Id == eventId)
+                    .Include(e => e.Inscricoes)
+                        .ThenInclude(i => i.Cliente)
+                    .FirstOrDefault();
+            }
 
-            InscriptionViewModel.AllEvents = Events;
+            var Events = context.Events.ToList();
+            viewModel.AllEvents = Events;
 
-            InscriptionViewModel.Events = Events.Where(e => !e.Excluido).Select(Event =>
+            viewModel.Events = Events.Where(e => !e.Excluido).Select(@event =>
             new SelectListItem
             {
-                Value = Event.Id.ToString(),
-                Text = Event.Nome
+                Value = @event.Id.ToString(),
+                Text = @event.Nome,
+                Selected = @event.Id == eventId
             });
 
-            InscriptionViewModel.Customers = Context.Customers.Where(c => !c.Excluido).ToList().Select(Customer =>
+            viewModel.Customers = context.Customers.Where(c => !c.Excluido).ToList().Select(Customer =>
               new SelectListItem
               {
                   Value = Customer.Id.ToString(),
-                  Text = Customer.Nome
+                  Text = Customer.Nome,
+                  Disabled = viewModel.SelectedEvent != null 
+                             && viewModel.SelectedEvent.Inscricoes.Any(i => i.Cliente.Id == Customer.Id)
               });
 
-            InscriptionViewModel.PaymentTypes = Context.PaymentTypes.ToList().Select(PaymentType =>
+            viewModel.PaymentTypes = context.PaymentTypes.ToList().Select(PaymentType =>
               new SelectListItem
               {
                   Value = PaymentType.Id.ToString(),
                   Text = PaymentType.Name
               });
 
-            return InscriptionViewModel;
+            return viewModel;
         }
     }
 }

@@ -99,7 +99,7 @@
     @if (!@Model.Evento.Excluido)
     {
         <div>
-            <a class="btn btn-primary" asp-controller="Inscription" asp-action="Create">Vender ingresso</a>
+            <a class="btn btn-primary" href="/Inscription/Create?eventId=@Model.Evento.Id">Vender ingresso</a>
         </div>
     }
 </div>
@@ -109,12 +109,20 @@
         @Model.IngressosVendidos/@Model.Evento.Capacidade ingressos vendidos
     </div>
     <div class="col-md-4 text-md-center">
-        @Model.IngressosRestantes restantes
+        @if (Model.IngressosRestantes > 0)
+        {
+            @($"{Model.IngressosRestantes} restantes");
+        }
+        else
+        {
+            @("Todos os ingressos foram vendidos");
+        }
     </div>
     <div class="col-md-4 text-md-right">
         R$ @Model.ValorArrecadado arrecadados no total
     </div>
 </div>
+
 
 <div class="mb-4">
     <div class="progress">
@@ -124,35 +132,41 @@
 
 <p class="text-black-50 text-center">Ingressos vendidos:</p>
 
-<ul class="list-group">
-    @foreach (var inscricao in Model.Evento.Inscricoes)
-    {
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            <div>
-                @inscricao.Cliente.Nome
-            </div>
-            <div>
-                <span class="badge badge-pill badge-primary">@inscricao.QtdInteira inteiras</span>
-                <span class="badge badge-pill badge-secondary">@inscricao.QtdMeia meias</span>
-            </div>
+@if (!Model.Evento.Inscricoes.Any())
+{
+    <div class="alert alert-light">Nenhum ingresso foi vendido para esse evento</div>
+}
+else
+{
+    <ul class="list-group">
+        @foreach (var inscricao in Model.Evento.Inscricoes)
+        {
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-4">
+                        <span>@inscricao.Cliente.Nome</span>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="badge badge-pill badge-primary">@inscricao.QtdInteira inteiras</span>
+                        <span class="badge badge-pill badge-secondary">@inscricao.QtdMeia meias</span>
 
-            <div>
-                Pago: R$ @inscricao.ValorRecebido
-                @if ((inscricao.ValorTotal - inscricao.ValorRecebido) == 0)
-                {
-                    <span class="badge badge-pill badge-success">Pago</span>
-                }
-                else
-                {
-                    <span class="badge badge-pill badge-danger">Em falta</span>
-                }
-            </div>
-            <a asp-controller="Inscription" asp-action="Details" asp-route-id="@inscricao.Id">Ver detalhes</a>
-        </li>
-    }
-    
-    @if (!Model.Evento.Inscricoes.Any())
-    {
-        <div class="alert alert-light">Nenhum ingresso foi vendido para esse evento</div>
-    }
-</ul>
+                        <span>
+                            Pago: R$ @inscricao.ValorRecebido
+                            @if (inscricao.ValorDevido == 0)
+                            {
+                                <span class="badge badge-pill badge-success">Pago</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-pill badge-danger">Em falta</span>
+                            }
+                        </span>
+                    </div>
+                    <div class="col-md-4 text-md-right">
+                        <a asp-controller="Inscription" asp-action="Details" asp-route-id="@inscricao.Id">Ver detalhes</a>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+}

@@ -5,20 +5,22 @@ ViewData["Title"] = "Vender ingresso";
 }
 
 <h1>Vender ingresso</h1>
+<h2>@Model.SelectedEvent?.Nome</h2>
 
 <hr />
+
 <div class="row">
     <div class="col-md-4">
         <form id="create-inscription" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="CustomerId" class="control-label">Cliente</label>
-                <select asp-for="CustomerId" asp-items="Model.Customers" class="form-control" required>
+                <select asp-for="CustomerId" asp-items="Model.Customers" class="form-control" onchange="" required>
                     <option disabled selected hidden value=""></option>
                 </select>
                 <span asp-validation-for="CustomerId" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group @(Model.SelectedEvent != null ? "d-none" : "")">
                 <label asp-for="EventId" class="control-label">Evento</label>
                 <select id="eventoId" asp-for="EventId" asp-items="Model.Events" class="form-control" required>
                     <option disabled selected hidden value=""></option>
