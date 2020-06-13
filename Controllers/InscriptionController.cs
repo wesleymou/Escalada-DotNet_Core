@@ -53,9 +53,9 @@ namespace Escalada
         }
 
         // GET: Inscription/Create
-        public IActionResult Create()
+        public IActionResult Create(int eventId)
         {
-            return View(InscriptionViewModelFactory.CreateViewModel(Context: _context));
+            return View(InscriptionViewModelFactory.CreateViewModel(_context, eventId));
         }
 
         // POST: Inscription/Create
@@ -95,7 +95,7 @@ namespace Escalada
                 return NotFound();
             }
 
-            return View(InscriptionViewModelFactory.CreateViewModel(Context: _context, Inscription: inscription));
+            return View(InscriptionViewModelFactory.CreateViewModel(context: _context, Inscription: inscription));
         }
 
         // POST: Inscription/Edit/5

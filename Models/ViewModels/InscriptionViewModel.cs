@@ -12,6 +12,8 @@ namespace Escalada.Models.ViewModels
         public string CustomerId { get; set; }
         public string PaymentTypeId { get; set; }
 
+        public Event SelectedEvent { get; set; }
+        
         public IEnumerable<Event> AllEvents { get; set; }
 
         public IEnumerable<SelectListItem> Events { get; set; }
